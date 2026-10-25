@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a1a2b"><title>HASHCRYPTO — Groupe</title>
+<style>
+:root{--bg:#06111d;--panel:#0b1c2d;--line:#173a52;--text:#eaf4fb;--muted:#8ea7bc;--teal:#00e0b5;--green:#4ade9f;--red:#ff8d9a;--them:#12293d;--mine:#0b5a52}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+button,input,textarea{font:inherit}a{color:inherit;text-decoration:none}
+svg{display:block}
+.app{height:100dvh;max-width:820px;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);border-left:1px solid #0f2a3d;border-right:1px solid #0f2a3d}
+
+/* ===== En-tête ===== */
+.header{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));background:linear-gradient(180deg,#0e2237,#0a1a2b);border-bottom:1px solid var(--line);z-index:5}
+.back{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#cfe3f1;flex-shrink:0;transition:background .15s}
+.back:hover{background:#ffffff12}
+.back svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.avatar{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:linear-gradient(135deg,#00e0b5,#33a8ee);color:#042622;box-shadow:0 0 18px #00e0b52e}
+.avatar svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.headtext{min-width:0;flex:1}
+.headtext h1{font-size:16px;font-weight:750;margin:0 0 3px;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.headtext p{margin:0;color:var(--muted);font-size:12px;display:flex;align-items:center}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;box-shadow:0 0 8px var(--green)}
+.dot.closed{background:var(--red);box-shadow:0 0 8px var(--red)}
+
+/* ===== Bandeau d'info ===== */
+.info{flex:0 0 auto;display:flex;gap:9px;align-items:flex-start;padding:8px 14px;background:#0c2233;border-bottom:1px solid #123349;color:#9fb9cc;font-size:11.5px;line-height:1.45}
+.info svg{width:15px;height:15px;flex:0 0 15px;margin-top:1px;fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== Zone de discussion ===== */
+.chat{flex:1;min-height:0;display:flex;flex-direction:column}
+.msgwrap{position:relative;flex:1;min-height:0;background-color:#071522;background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27220%27%20height=%27220%27%20viewBox=%270%200%20220%20220%27%20fill=%27none%27%20stroke=%27rgba%280%2C224%2C181%2C0.075%29%27%20stroke-width=%271.6%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpolygon%20points=%2736%2C16%2052%2C25%2052%2C43%2036%2C52%2020%2C43%2020%2C25%27/%3E%3Ccircle%20cx=%27150%27%20cy=%2734%27%20r=%2715%27/%3E%3Cpath%20d=%27M150%2026v16M145%2030h8a3%203%200%200%201%200%206h-8%27/%3E%3Cpath%20d=%27M96%2086l14-10%2012%207%2018-17%27/%3E%3Cpath%20d=%27M133%2066h7v7%27/%3E%3Crect%20x=%2724%27%20y=%27108%27%20width=%2730%27%20height=%2720%27%20rx=%275%27/%3E%3Cpath%20d=%27M24%20116h30M44%20123h6%27/%3E%3Ccircle%20cx=%27176%27%20cy=%27128%27%20r=%2713%27/%3E%3Cpath%20d=%27M170%20128l4%204%208-9%27/%3E%3Cpolygon%20points=%2796%2C170%20110%2C178%20110%2C194%2096%2C202%2082%2C194%2082%2C178%27/%3E%3Cpath%20d=%27M30%20176h10v12H30zM44%20168h10v20H44zM58%20160h10v28H58z%27/%3E%3Ccircle%20cx=%27186%27%20cy=%27190%27%20r=%279%27/%3E%3C/svg%3E");background-size:220px 220px}
+.msgwrap:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0,#0f3a4d33,transparent 60%),radial-gradient(ellipse at 100% 100%,#1a2c6433,transparent 55%);pointer-events:none}
+.messages{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:10px 10px 14px;display:flex;flex-direction:column;gap:2px;scroll-behavior:auto}
+.messages::-webkit-scrollbar{width:6px}.messages::-webkit-scrollbar-thumb{background:#1c4058;border-radius:6px}
+
+.day{align-self:center;margin:12px 0 8px}
+.day span{display:inline-block;background:#0f2a3dee;border:1px solid #1a4560;color:#a9c3d6;font-size:11px;font-weight:600;padding:5px 12px;border-radius:9px;box-shadow:0 2px 8px #0004}
+
+.msgrow{display:flex;align-items:flex-end;gap:7px;max-width:86%}
+.msgrow.first{margin-top:9px}
+.msgrow.mine{align-self:flex-end;flex-direction:row-reverse}
+.miniavatar{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-size:12px;font-weight:800;color:#06131f}
+.miniavatar.ghost{visibility:hidden}
+.bubble{position:relative;min-width:64px;max-width:100%;padding:6px 9px 6px 10px;border-radius:12px;background:var(--them);border:1px solid #1b3b53;box-shadow:0 1px 3px #0005;color:var(--text)}
+.mine .bubble{background:linear-gradient(145deg,#0e6a5f,#0b5a52);border-color:#13867a}
+.msgrow.first .bubble{border-top-left-radius:3px}
+.msgrow.mine.first .bubble{border-top-left-radius:12px;border-top-right-radius:3px}
+.sender{font-size:12px;font-weight:750;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.body{font-size:14.5px;line-height:1.42;overflow-wrap:anywhere;white-space:pre-wrap}
+.body:after{content:"";display:block;clear:both}
+.meta{float:right;display:inline-flex;align-items:center;gap:6px;margin:7px 0 -3px 12px;font-size:10.5px;color:#9db6c8;line-height:1}
+.mine .meta{color:#b6e9df}
+.delete{border:0;background:transparent;color:inherit;padding:0;display:grid;place-items:center;cursor:pointer;opacity:.75;transition:opacity .15s,color .15s}
+.delete:hover{opacity:1;color:#ffb3bb}
+.delete svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bubble.img{padding:3px}
+.bubble.img .sender{padding:3px 7px 4px}
+.imgwrap{position:relative;line-height:0}
+.photo{display:block;max-width:min(100%,300px);max-height:380px;object-fit:contain;border-radius:9px;background:#0a1a2a}
+.imgwrap .meta{position:absolute;float:none;right:6px;bottom:6px;margin:0;background:#000000a0;color:#e7f2f9;padding:3px 7px;border-radius:9px}
+
+.tobottom{position:absolute;right:14px;bottom:12px;width:42px;height:42px;border-radius:50%;border:1px solid #1f5a78;background:linear-gradient(145deg,#12324c,#0b2237);color:var(--teal);display:none;place-items:center;cursor:pointer;box-shadow:0 8px 22px #0007;z-index:3}
+.tobottom.show{display:grid}
+.tobottom svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+.empty{margin:auto;max-width:300px;text-align:center;color:var(--muted);padding:26px 20px;line-height:1.55;font-size:13px;background:#0b1c2dd9;border:1px solid #173a52;border-radius:20px}
+.empty .eicon{width:54px;height:54px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:#00e0b51a;border:1px solid #00e0b540;color:var(--teal)}
+.empty .eicon svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.empty strong{display:block;color:var(--text);margin-bottom:5px;font-size:15px}
+
+/* ===== Zone de saisie ===== */
+.composer-wrap{flex:0 0 auto;background:#0a1a2b;border-top:1px solid var(--line);padding:8px 10px max(8px,env(safe-area-inset-bottom))}
+.preview{display:none;align-items:center;gap:10px;margin:0 0 8px;padding:8px;border:1px solid var(--line);background:#0e2336;border-radius:14px}
+.preview.show{display:flex}
+.preview img{width:52px;height:52px;object-fit:cover;border-radius:9px}
+.preview span{font-size:12px;color:var(--muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iconbtn{width:40px;height:40px;border:0;background:transparent;color:#8fb0c6;border-radius:50%;display:grid;place-items:center;cursor:pointer;flex-shrink:0;transition:background .15s,color .15s}
+.iconbtn:hover{background:#ffffff12;color:var(--teal)}
+.iconbtn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.composer{display:flex;align-items:flex-end;gap:8px}
+.inputbox{flex:1;min-width:0;display:flex;align-items:flex-end;background:#0f2438;border:1px solid #1f4259;border-radius:24px;padding:3px 6px 3px 4px;transition:border-color .15s,box-shadow .15s}
+.inputbox:focus-within{border-color:var(--teal);box-shadow:0 0 0 3px #00e0b51a}
+textarea{flex:1;min-width:0;resize:none;min-height:40px;max-height:120px;border:0;outline:0;background:transparent;color:var(--text);padding:10px 6px;line-height:1.4;font-size:15px}
+textarea::placeholder{color:#6d889c}
+.send{width:46px;height:46px;border:0;border-radius:50%;background:linear-gradient(135deg,#00e0b5,#33cfee);color:#042622;display:grid;place-items:center;cursor:pointer;flex-shrink:0;box-shadow:0 6px 18px #00e0b533;transition:transform .15s,opacity .15s}
+.send:hover{transform:scale(1.05)}
+.send svg{width:21px;height:21px;fill:currentColor;margin-left:2px}
+.send:disabled,.iconbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.footnote{text-align:center;color:#587489;font-size:10px;margin:7px 0 0}
+
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,150%);opacity:0;transition:.2s;z-index:20;background:#12324a;border:1px solid #1f6b86;color:#effaff;border-radius:14px;padding:12px 16px;max-width:90vw;box-shadow:0 12px 35px #0008;font-size:13px}
+.toast.show{transform:translate(-50%,0);opacity:1}
+@media(max-width:560px){.app{border:0}.msgrow{max-width:92%}.photo{max-width:min(100%,250px)}}
+</style></head>
+<body>
+<div class="app">
+<header class="header">
+  <a class="back" href="dashboard.html" aria-label="Retour au tableau de bord"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
+  <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.2" cy="9" r="2.5"/><path d="M16.2 14.3c2.8.3 4.8 2.5 4.8 5.7"/></svg></div>
+  <div class="headtext"><h1>Groupe HASHCRYPTO</h1><p id="groupStatus"><span class="dot"></span>Connexion au groupe…</p></div>
+</header>
+<div class="info"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span id="notice">Échangez avec les autres membres de HASHCRYPTO. Images JPEG, PNG, WebP ou GIF de 5 Mo maximum.</span></div>
+<main class="chat">
+  <div class="msgwrap">
+    <section class="messages" id="messages" aria-live="polite"><div class="empty"><strong>Chargement des messages…</strong>Préparation de votre espace de discussion.</div></section>
+    <button class="tobottom" id="toBottom" type="button" aria-label="Aller aux derniers messages"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  <div class="composer-wrap">
+    <div class="preview" id="preview"><img id="previewImg" alt="Aperçu de l’image"><span id="previewName"></span><button type="button" class="iconbtn" id="clearImage" aria-label="Retirer l’image"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <form class="composer" id="composer">
+      <div class="inputbox">
+        <button class="iconbtn" type="button" id="pickImage" aria-label="Joindre une image" title="Joindre une image"><svg viewBox="0 0 24 24"><path d="M21 11.5l-8.6 8.6a5 5 0 0 1-7.1-7.1l8.9-8.9a3.4 3.4 0 0 1 4.8 4.8l-8.9 8.9a1.7 1.7 0 0 1-2.4-2.4l8.1-8.1"/></svg></button>
+        <input type="file" id="imageInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+        <textarea id="messageText" maxlength="2000" rows="1" placeholder="Écrire un message…" aria-label="Votre message"></textarea>
+      </div>
+      <button class="send" id="sendBtn" type="submit" aria-label="Envoyer"><svg viewBox="0 0 24 24"><path d="M3.4 20.4 21 12 3.4 3.6l.1 6.5L15 12 3.5 13.9z"/></svg></button>
+    </form>
+    <p class="footnote">Les messages sont soumis aux règles du groupe et à la modération.</p>
+  </div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const CHAT='https://dcpgsrcrwnkcznykehgt.supabase.co/functions/v1/hashcoin-chat';
+const token=()=>localStorage.getItem('hashcoin_token')||sessionStorage.getItem('hashcoin_token')||'';
+const $=id=>document.getElementById(id);
+let messages=[],selectedFile=null,loading=false,lastSignature='';
+const NOTICE_DEFAULT='Échangez avec les autres membres de HASHCRYPTO. Images JPEG, PNG, WebP ou GIF de 5 Mo maximum.';
+const COLORS=['#4fd1c5','#f6ad55','#90cdf4','#fc8181','#b794f4','#68d391','#f687b3','#faf089'];
+const TRASH='<svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>';
+const PEOPLE='<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.2" cy="9" r="2.5"/><path d="M16.2 14.3c2.8.3 4.8 2.5 4.8 5.7"/></svg>';
+function colorFor(s){let h=0;for(const c of String(s)){h=(h*31+c.charCodeAt(0))>>>0}return COLORS[h%COLORS.length]}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3200)}
+function time(s){const d=new Date(s);return Number.isNaN(+d)?'':d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
+function day(s){const d=new Date(s);if(Number.isNaN(+d))return '';const t=new Date(),y=new Date(Date.now()-864e5);const same=(a,b)=>a.toDateString()===b.toDateString();if(same(d,t))return 'Aujourd’hui';if(same(d,y))return 'Hier';return d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}
+async function api(action,extra={}){const t=token();const multipart=extra.multipart;const payload={action,...extra};delete payload.multipart;if(t)payload.token=t;const res=await fetch(CHAT,{method:'POST',headers:{...(t?{Authorization:'Bearer '+t}:{}),...(multipart?{}:{'Content-Type':'application/json'})},body:multipart||JSON.stringify(payload)});const d=await res.json().catch(()=>({}));if(!res.ok)throw new Error(d.error||'Erreur de connexion');return d}
+function nameOf(m){return m.pseudo||m.username||m.display_name||'Membre HASHCRYPTO'}
+function keyOf(m){return m.is_mine?'__me':(m.user_id||nameOf(m))}
+function render(forceBottom=false){
+  const box=$('messages'),near=box.scrollHeight-box.scrollTop-box.clientHeight<100;
+  let html='',prevDay='';
+  const info=messages.map(m=>({m,d:day(m.created_at),k:keyOf(m)}));
+  info.forEach((o,i)=>{
+    const m=o.m,mine=!!m.is_mine,name=nameOf(m),col=colorFor(o.k);
+    const newDay=o.d!==prevDay;
+    if(newDay){html+=`<div class="day"><span>${esc(o.d)}</span></div>`;prevDay=o.d}
+    const prev=info[i-1],next=info[i+1];
+    const first=newDay||!prev||prev.k!==o.k;
+    const last=!next||next.d!==o.d||next.k!==o.k;
+    const isImg=(m.message_type==='image'||m.storage_path);
+    const del=mine?`<button class="delete" data-delete="${esc(m.id)}" aria-label="Supprimer le message" title="Supprimer">${TRASH}</button>`:'';
+    const meta=`<span class="meta"><span>${esc(time(m.created_at))}</span>${del}</span>`;
+    const sender=(!mine&&first)?`<div class="sender" style="color:${col}">${esc(name)}</div>`:'';
+    const content=isImg
+      ?`<div class="imgwrap"><img class="photo" src="${esc(m.image_url||'')}" alt="Image envoyée dans le groupe" loading="lazy">${meta}</div>`
+      :`<div class="body">${esc(m.body||'')}${meta}</div>`;
+    const avatar=mine?'':`<div class="miniavatar ${last?'':'ghost'}" style="background:${col}">${esc((name.trim()[0]||'H').toUpperCase())}</div>`;
+    html+=`<div class="msgrow ${mine?'mine':''} ${first?'first':''}">${avatar}<div class="bubble ${isImg?'img':''}">${sender}${content}</div></div>`;
+  });
+  if(!html)html=`<div class="empty"><div class="eicon">${PEOPLE}</div><strong>Bienvenue dans le groupe HASHCRYPTO</strong>Sois le premier à envoyer un message.</div>`;
+  const sig=messages.map(m=>m.id+':'+(m.deleted_at||'')).join('|');
+  if(sig!==lastSignature){box.innerHTML=html;lastSignature=sig;if(forceBottom||near)box.scrollTop=box.scrollHeight}
+  box.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteMessage(b.dataset.delete));
+}
+async function loadMessages(silent=false){if(loading)return;loading=true;try{const d=await api('list',{limit:80});messages=d.messages||[];render(!silent);if(!silent)await loadStatus()}catch(e){if(!silent){if(/Session invalide|Reconnectez-vous/i.test(e.message)){toast('Connectez-vous pour accéder au groupe.');setTimeout(()=>location.href='connexion.html',800)}else toast(e.message)}}finally{loading=false}}
+async function loadStatus(){try{const d=await api('status'),open=d.is_open===true;$('groupStatus').innerHTML=`<span class="dot ${open?'':'closed'}"></span>${open?'Groupe ouvert':'Groupe fermé'}`;if(!open&&d.manual?.closed_message)$('notice').textContent=d.manual.closed_message;else $('notice').textContent=NOTICE_DEFAULT;$('messageText').disabled=!open;$('pickImage').disabled=!open;$('sendBtn').disabled=!open}catch(e){$('groupStatus').textContent='Statut indisponible'}}
+async function deleteMessage(id){if(!confirm('Supprimer ce message que vous avez envoyé ?'))return;try{await api('delete_message',{message_id:id});messages=messages.filter(m=>m.id!==id);lastSignature='';render();toast('Message supprimé.')}catch(e){toast(e.message)}}
+$('pickImage').onclick=()=>$('imageInput').click();
+$('imageInput').addEventListener('change',()=>{const f=$('imageInput').files?.[0];if(!f){selectedFile=null;$('preview').classList.remove('show');return}if(!['image/jpeg','image/png','image/webp','image/gif'].includes(f.type)){toast('Choisissez une image JPEG, PNG, WebP ou GIF.');$('imageInput').value='';return}if(f.size>5*1024*1024){toast('L’image doit peser 5 Mo maximum.');$('imageInput').value='';return}selectedFile=f;$('previewImg').src=URL.createObjectURL(f);$('previewName').textContent=f.name;$('preview').classList.add('show')});
+$('clearImage').onclick=()=>{selectedFile=null;$('imageInput').value='';$('preview').classList.remove('show')};
+$('messageText').addEventListener('input',()=>{const t=$('messageText');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,120)+'px'});
+$('composer').addEventListener('submit',async e=>{e.preventDefault();if(loading)return;const body=$('messageText').value.trim();if(!body&&!selectedFile)return;const file=selectedFile,send=$('sendBtn');send.disabled=true;try{if(file){const form=new FormData();form.append('action','upload_image');form.append('token',token());form.append('file',file,file.name);await api('upload_image',{multipart:form});selectedFile=null;$('imageInput').value='';$('preview').classList.remove('show')}if(body)await api('send_text',{body});$('messageText').value='';$('messageText').style.height='auto';await loadMessages();$('messages').scrollTop=$('messages').scrollHeight}catch(err){toast(err.message)}finally{send.disabled=false}});
+const msgBox=$('messages');
+msgBox.addEventListener('scroll',()=>{$('toBottom').classList.toggle('show',msgBox.scrollHeight-msgBox.scrollTop-msgBox.clientHeight>240)});
+$('toBottom').onclick=()=>msgBox.scrollTo({top:msgBox.scrollHeight,behavior:'smooth'});
+if(!token()){toast('Connectez-vous pour accéder au groupe.');setTimeout(()=>location.href='connexion.html',800)}else{loadMessages();setInterval(()=>loadMessages(true),5000);setInterval(loadStatus,30000)}
+</script></body></html>
