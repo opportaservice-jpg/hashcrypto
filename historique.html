@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08111f">
+<title>Historique — HASHCRYPTO</title>
+<style>
+:root{color-scheme:dark;--bg:#08111f;--panel:#101d30;--panel2:#14243a;--line:#26364d;--text:#f1f6ff;--muted:#8fa3bd;--cyan:#20d5e8;--green:#36d399;--red:#fb7185;--amber:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#10233a 0,#08111f 52%);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text);min-height:100vh}.wrap{max-width:760px;margin:auto;padding:18px 15px 36px}.top{display:flex;align-items:center;gap:13px;margin:8px 0 22px}.back{display:grid;place-items:center;width:42px;height:42px;border:1px solid var(--line);border-radius:14px;color:white;text-decoration:none;font-size:24px;background:#101d30}.brand{font-size:12px;letter-spacing:2px;color:var(--cyan);font-weight:800}.heading{font-size:25px;font-weight:800;margin-top:2px}.subtitle{color:var(--muted);font-size:13px;margin-top:5px}.panel{background:linear-gradient(145deg,rgba(20,36,58,.97),rgba(13,25,42,.97));border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:15px;box-shadow:0 12px 32px #0002}.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#0b1728;border:1px solid #24364e;border-radius:15px;padding:13px}.stat span{display:block;color:var(--muted);font-size:12px;margin-bottom:8px}.stat strong{font-size:17px;overflow-wrap:anywhere}.filters{display:flex;gap:8px;overflow:auto;padding:2px 0 7px;margin-bottom:12px}.filter{flex:0 0 auto;border:1px solid var(--line);background:#0b1728;color:#aabbd0;border-radius:12px;padding:10px 13px;font-size:12px;font-weight:700;cursor:pointer}.filter.active{background:#123c4a;border-color:#167e91;color:#70f0fa}.searchrow{display:flex;gap:8px}.searchrow input,.searchrow select{min-width:0;width:100%;background:#091526;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font-size:13px;outline:none}.tx{display:flex;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #23344a}.tx:last-child{border-bottom:0}.txicon{width:43px;height:43px;flex:0 0 43px;border-radius:14px;display:grid;place-items:center;font-size:19px;background:#17374a;color:var(--cyan)}.txicon.in{background:#123b35;color:var(--green)}.txicon.out{background:#432632;color:var(--red)}.txmain{flex:1;min-width:0}.txtitle{font-weight:750;font-size:14px}.txmeta{font-size:11px;color:var(--muted);margin-top:5px;overflow-wrap:anywhere}.status{display:inline-block;margin-top:7px;font-size:10px;font-weight:800;padding:4px 7px;border-radius:7px;background:#26354a;color:#b9c8dc}.status.completed,.status.confirmed,.status.approved{background:#123b35;color:#6ee7b7}.status.pending,.status.processing{background:#49391b;color:#fcd34d}.status.rejected,.status.failed,.status.cancelled{background:#48242d;color:#fda4af}.amount{text-align:right;min-width:95px;font-size:13px;font-weight:800;overflow-wrap:anywhere}.amount.in{color:var(--green)}.amount.out{color:var(--red)}.amount small{display:block;color:var(--muted);font-size:10px;font-weight:500;margin-top:5px}.empty{text-align:center;color:var(--muted);padding:38px 10px;font-size:13px}.empty b{display:block;color:var(--text);font-size:15px;margin-bottom:7px}.notice{display:none;border-radius:12px;padding:12px;margin-bottom:12px;font-size:12px;background:#43242d;color:#fecdd3}.notice.show{display:block}.loading{padding:24px;text-align:center;color:var(--muted);font-size:13px}.more{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#0b1728;color:var(--cyan);font-weight:750;cursor:pointer}.foot{text-align:center;color:#61758e;font-size:10px;margin-top:17px}.detail{margin-top:12px;padding:12px;background:#091526;border:1px solid var(--line);border-radius:12px;font-size:12px;color:#b7c7da;display:none;overflow-wrap:anywhere}.detail.open{display:block}.detail div{margin:5px 0}.detail b{color:#edf6ff}@media(min-width:600px){.wrap{padding-top:28px}.summary{grid-template-columns:1fr 1fr}.panel{padding:20px}}
+
+:root{--bg:#06111f;--cyan:#00e0b5}
+body{background:var(--bg);position:relative;overflow-x:hidden}
+.wrap{position:relative;z-index:1}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#0f3a4d 0,transparent 42%),radial-gradient(ellipse at 95% 95%,#1a2c64 0,transparent 42%),radial-gradient(ellipse at 85% 12%,#3a2a0f44 0,transparent 35%),var(--bg)}
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.2;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#00e0b50d 1px,transparent 1px),linear-gradient(90deg,#00e0b50d 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:36vh;opacity:.4}
+.bgcoin{position:absolute;display:block;opacity:.5;animation:bgfloat var(--d,20s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 10px 24px #0008)}
+.bgcoin svg{display:block;width:100%;height:100%}
+.bgcoin.blur{filter:blur(4px);opacity:.3}
+@keyframes bgfloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-30px),0) rotate(var(--r1,10deg))}}
+@media(prefers-reduced-motion:reduce){.bgcoin{animation:none}}
+.back{border-radius:15px;background:#0b1b2ee8;backdrop-filter:blur(10px);transition:border-color .15s}
+.back:hover{border-color:#00e0b580}
+.back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand{font-size:15px;letter-spacing:3px;font-weight:900;color:#f4f8ff}
+.brand:first-letter{color:inherit}
+.heading{letter-spacing:-.4px}
+.panel{background:linear-gradient(145deg,#0b2037e8,#081728e8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-color:#1b405b;border-radius:22px}
+.panel.summary{background:linear-gradient(135deg,#0c2a45f2,#081728f2);border-color:#1d5a78}
+.stat{position:relative;overflow:hidden;border-radius:18px;background:#0a1a2cd9;border-color:#1b405b}
+.stat>*:not(.deco){position:relative;z-index:1}
+.deco{position:absolute;pointer-events:none;z-index:0}
+.deco svg{display:block;width:100%;height:100%}
+.deco-sm{right:8px;bottom:6px;width:64px;height:42px;opacity:.26}
+.filter{border-radius:999px;padding:9px 14px;background:#0a1a2cd9;transition:border-color .15s,color .15s}
+.filter:hover{border-color:#00e0b580}
+.filter.active{background:linear-gradient(135deg,#00e0b5,#33cfee);border-color:transparent;color:#04231e}
+.searchrow input,.searchrow select{border-radius:14px;border-width:1.5px;padding:13px 14px;background:linear-gradient(180deg,#0a1a2d,#071321);border-color:#2b4058}
+.searchrow input:focus,.searchrow select:focus{border-color:#00e0b5;box-shadow:0 0 0 3px #00e0b51f}
+.txicon{border-radius:50%;border:1px solid #1f5a78;background:linear-gradient(145deg,#12324c,#0b2237);color:#00e0b5}
+.txicon.in{background:linear-gradient(145deg,#0f4a42,#0a3330);border-color:#1b7a6a;color:#4ee0aa}
+.txicon.out{background:linear-gradient(145deg,#4a2432,#33181f);border-color:#7a3a4a;color:#ff8d9a}
+.txicon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.more{border-radius:16px;background:linear-gradient(160deg,#13324c,#0b2236);border-color:#1f5a78}
+.detail{border-radius:14px}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><div class="bg-photo" style="--bg-photo:none"></div><div class="bg-grid"></div>
+<svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient></defs><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#00e0b5" stroke-width="2.5" stroke-linejoin="round"/></svg>
+<div id="bgcoins"></div></div>
+<main class="wrap">
+<header class="top">
+<a class="back" href="dashboard.html" aria-label="Retour au tableau de bord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+<div><div class="brand">HASHCRYPTO</div><div class="heading">Historique</div><div class="subtitle">Suivez vos opérations et leurs statuts</div></div>
+</header>
+<section class="panel summary">
+<div class="stat"><div class="deco deco-sm" aria-hidden="true"><svg viewBox="0 0 120 80"><g fill="none" stroke="#00e0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="10" width="26" height="26" rx="6"/><rect x="47" y="24" width="26" height="26" rx="6" opacity=".7"/><rect x="80" y="38" width="26" height="26" rx="6" opacity=".45"/><path d="M40 23h7M73 37h7"/></g></svg></div><span>Opérations affichées</span><strong id="count">—</strong></div>
+<div class="stat"><div class="deco deco-sm" aria-hidden="true"><svg viewBox="0 0 120 80"><g fill="none" stroke="#67baff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="60" cy="40" r="28"/><path d="M60 22v19l13 8"/></g></svg></div><span>Dernière actualisation</span><strong id="updated" style="font-size:13px">—</strong></div>
+</section>
+<div id="notice" class="notice"></div>
+<section class="panel">
+<div class="filters" id="filters">
+<button class="filter active" data-filter="all">Tout</button>
+<button class="filter" data-filter="deposit">Dépôts</button>
+<button class="filter" data-filter="withdrawal">Retraits</button>
+<button class="filter" data-filter="mining">Revenus du minage</button>
+<button class="filter" data-filter="conversion">Conversions</button>
+<button class="filter" data-filter="referral">Parrainage</button>
+<button class="filter" data-filter="other">Autres</button>
+</div>
+<div class="searchrow">
+<input id="search" type="search" placeholder="Rechercher une référence…" aria-label="Rechercher une référence">
+<select id="asset" aria-label="Filtrer par devise"><option value="all">Toutes les devises</option><option value="BTC">BTC</option><option value="USDT">USDT</option><option value="XOF">FCFA (XOF)</option></select>
+</div>
+</section>
+<section class="panel">
+<div id="list"><div class="loading">Chargement de vos transactions…</div></div>
+<button id="more" class="more" style="display:none">Charger plus</button>
+</section>
+<div class="foot">Les opérations affichées proviennent de votre compte HASHCRYPTO.</div>
+</main>
+<script>
+(() => {
+  const SUPABASE_URL = "https://dcpgsrcrwnkcznykehgt.supabase.co";
+  const ANON_KEY = ""; // Ajoutez ici la clé anon publique du projet si votre déploiement l'exige.
+  const $ = id => document.getElementById(id);
+  let all = [], activeFilter = "all", limit = 50, loading = false;
+  const token = () => localStorage.getItem("hashcoin_token") || sessionStorage.getItem("hashcoin_token") || "";
+  function showError(message){const n=$("notice");n.textContent=message;n.classList.add("show")}
+  function clearError(){$("notice").classList.remove("show")}
+  async function callCore(action, extra={}) {
+    const t=token();
+    if(!t) throw new Error("Session absente. Connectez-vous à HASHCRYPTO puis ouvrez à nouveau l’historique.");
+    const headers={"Content-Type":"application/json"};
+    if(ANON_KEY) headers.apikey=ANON_KEY;
+    const res=await fetch(`${SUPABASE_URL}/functions/v1/hashcoin-core`,{method:"POST",headers,body:JSON.stringify({action,token:t,...extra})});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error || "Impossible de charger les transactions.");
+    return data;
+  }
+  function classify(tx){
+    const s=((tx.type||"")+" "+(tx.description||"")+" "+(tx.transaction_id||"")).toLowerCase();
+    if(s.includes("deposit")||s.includes("dépôt")||s.includes("depot"))return "deposit";
+    if(s.includes("withdraw")||s.includes("retrait"))return "withdrawal";
+    if(s.includes("mining")||s.includes("mine")||s.includes("accrual")||s.includes("revenu"))return "mining";
+    if(s.includes("conversion")||s.includes("convert"))return "conversion";
+    if(s.includes("referral")||s.includes("parrain")||s.includes("commission"))return "referral";
+    return "other";
+  }
+  function label(tx){
+    const k=classify(tx);
+    return ({deposit:"Dépôt",withdrawal:"Retrait",mining:"Revenu du minage",conversion:"Conversion",referral:"Commission de parrainage",other:tx.description||String(tx.type||"Opération").replaceAll("_"," ")})[k];
+  }
+  function icon(tx){const k=classify(tx);const P={
+deposit:'<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>',
+withdrawal:'<path d="M12 20V9M7 13.5l5-5 5 5M5 4h14"/>',
+mining:'<rect x="6" y="6" width="12" height="12" rx="2.5"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
+conversion:'<path d="M4 8h14M14.5 4.5 18 8l-3.5 3.5M20 16H6M9.5 12.5 6 16l3.5 3.5"/>',
+referral:'<circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="18" cy="18" r="2.6"/><path d="M8.3 10.8 15.7 7.2M8.3 13.2l7.4 3.6"/>',
+other:'<path d="M5 8h13M14.5 4.5 18 8l-3.5 3.5M19 16H6M9.5 12.5 6 16l3.5 3.5"/>'};
+return '<svg viewBox="0 0 24 24" aria-hidden="true">'+P[k]+'</svg>'}
+  function statusLabel(s){return ({completed:"Confirmé",confirmed:"Confirmé",approved:"Approuvé",pending:"En attente",processing:"En cours",rejected:"Rejeté",failed:"Échoué",cancelled:"Annulé"})[(s||"").toLowerCase()]||s||"Non précisé"}
+  function fmtAmount(value,asset){
+    const n=Number(value);if(!Number.isFinite(n))return `${value??"—"} ${asset||""}`;
+    const digits=asset==="BTC"?8:asset==="USDT"?4:0;
+    return `${n.toLocaleString("fr-FR",{maximumFractionDigits:digits,minimumFractionDigits:0})} ${asset==="XOF"?"FCFA":asset||""}`.trim();
+  }
+  function signed(tx){
+    const k=classify(tx), n=Number(tx.amount||0);
+    const outgoing=["withdrawal"].includes(k)||(k==="conversion" && String(tx.description||"").toLowerCase().includes("from"));
+    return {text:(outgoing?"−":(n>=0?"+":""))+fmtAmount(Math.abs(n),tx.asset),cls:outgoing||n<0?"out":"in"};
+  }
+  function dateFmt(d){if(!d)return "Date indisponible";const dt=new Date(d);return Number.isNaN(dt.getTime())?"Date indisponible":dt.toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"})}
+  function render(){
+    const q=$("search").value.trim().toLowerCase(), asset=$("asset").value;
+    const filtered=all.filter(tx=>(activeFilter==="all"||classify(tx)===activeFilter)&&(!q||String(tx.transaction_id||"").toLowerCase().includes(q)||String(tx.description||"").toLowerCase().includes(q)||String(tx.type||"").toLowerCase().includes(q))&&(asset==="all"||String(tx.asset||"").toUpperCase()===asset));
+    $("count").textContent=filtered.length;
+    if(!filtered.length){$("list").innerHTML='<div class="empty"><b>Aucune transaction à afficher</b>Les opérations apparaîtront ici lorsqu’elles seront enregistrées sur votre compte.</div>';return}
+    $("list").innerHTML=filtered.map((tx,i)=>{
+      const a=signed(tx), st=String(tx.status||"").toLowerCase(), id=String(tx.transaction_id||tx.id||"");
+      const detailId=`d${i}`;
+      return `<article class="tx"><div class="txicon ${a.cls}">${icon(tx)}</div><div class="txmain"><div class="txtitle">${esc(label(tx))}</div><div class="txmeta">${esc(dateFmt(tx.created_at))} · ${esc(id||"Référence indisponible")}</div><span class="status ${esc(st)}">${esc(statusLabel(st))}</span><div class="detail" id="${detailId}"><div><b>Référence :</b> ${esc(id||"—")}</div><div><b>Type :</b> ${esc(tx.type||"—")}</div><div><b>Montant :</b> ${esc(fmtAmount(tx.amount,tx.asset))}</div><div><b>Statut :</b> ${esc(statusLabel(st))}</div><div><b>Date :</b> ${esc(dateFmt(tx.created_at))}</div>${tx.description?`<div><b>Détails :</b> ${esc(tx.description)}</div>`:""}${tx.accrual_date?`<div><b>Date de crédit :</b> ${esc(tx.accrual_date)}</div>`:""}</div></div><div class="amount ${a.cls}">${esc(a.text)}<small>Détails <button type="button" data-detail="${detailId}" style="background:none;border:0;color:#00e0b5;padding:0;cursor:pointer;font-weight:700">voir</button></small></div></article>`;
+    }).join("");
+    $("list").querySelectorAll("[data-detail]").forEach(b=>b.addEventListener("click",()=>$(b.dataset.detail).classList.toggle("open")));
+  }
+  function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+  async function load(reset=true){
+    if(loading)return;loading=true;clearError();
+    if(reset){limit=50;$("list").innerHTML='<div class="loading">Chargement de vos transactions…</div>'}
+    try{
+      const data=await callCore("transactions",{limit});
+      all=Array.isArray(data.transactions)?data.transactions:[];
+      $("updated").textContent=new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+      render();
+      $("more").style.display=all.length>=limit?"block":"none";
+    }catch(e){$("list").innerHTML='<div class="empty"><b>Historique indisponible</b>Vérifiez votre connexion puis réessayez.</div>';showError(e.message)}
+    finally{loading=false}
+  }
+  $("filters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()});
+  $("search").addEventListener("input",render);$("asset").addEventListener("change",render);
+  $("more").addEventListener("click",()=>{limit+=50;load(false)});
+  load(true);
+})();
+</script>
+<script>
+(()=>{const C={btc:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',eth:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',usdt:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',hash:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'};
+const L=[['btc',84,'88%','6%',22,0,0],['eth',60,'4%','18%',24,-4,0],['usdt',66,'90%','48%',20,-2,1],['hash',54,'3%','58%',25,-6,1],['btc',100,'80%','80%',28,-9,1],['eth',48,'46%','90%',23,-3,1],['usdt',44,'55%','4%',26,-1,1]];
+const w=document.getElementById('bgcoins');
+L.forEach(([k,sz,l,t,d,dl,b],i)=>{const e=document.createElement('span');e.className='bgcoin'+(b?' blur':'');e.style.cssText=`width:${sz}px;height:${sz}px;left:${l};top:${t};--d:${d}s;--delay:${dl}s;--dx:${(i%2?-1:1)*(12+i*3)}px;--dy:${-20-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;e.innerHTML=C[k].replace(/id="(g[A-Z])"/g,`id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g,`url(#$1${i})`);w.appendChild(e)});
+})();
+</script>
+</body>
+</html>
