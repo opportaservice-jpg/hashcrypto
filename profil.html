@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#06111f">
+<title>Profil — HASHCRYPTO</title>
+<style>
+:root{color-scheme:dark;--bg:#06111f;--panel:#0b1b2e;--line:#1b405b;--teal:#00e0b5;--blue:#67baff;--text:#f4f8ff;--muted:#92abc4;--red:#ff8d9a}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
+button,a,input{font:inherit}button{cursor:pointer}
+
+/* ===== Fond crypto ===== */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#0f3a4d 0,transparent 42%),radial-gradient(ellipse at 95% 95%,#1a2c64 0,transparent 42%),radial-gradient(ellipse at 85% 12%,#3a2a0f44 0,transparent 35%),var(--bg)}
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.2;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#00e0b50d 1px,transparent 1px),linear-gradient(90deg,#00e0b50d 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:36vh;opacity:.4}
+.bgcoin{position:absolute;display:block;opacity:.5;animation:bgfloat var(--d,20s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 10px 24px #0008)}
+.bgcoin svg{display:block;width:100%;height:100%}
+.bgcoin.blur{filter:blur(4px);opacity:.3}
+@keyframes bgfloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-30px),0) rotate(var(--r1,10deg))}}
+@media(prefers-reduced-motion:reduce){.bgcoin{animation:none}}
+
+/* ===== Page ===== */
+.page{position:relative;z-index:1;max-width:620px;margin:0 auto;padding:22px 16px 120px}
+header{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.back{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;background:#0b1b2ee8;color:var(--text);text-decoration:none;backdrop-filter:blur(10px);transition:border-color .15s}
+.back:hover{border-color:#00e0b580}
+.back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand{font-size:22px;font-weight:900;letter-spacing:3px}.brand span{color:var(--teal)}
+.eyebrow{color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;margin-top:4px}
+
+.toast{display:none;border:1px solid #6b3a44;background:#3b1c27e8;color:#ffc7cd;padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+
+/* Carte profil */
+.hero{position:relative;overflow:hidden;text-align:center;padding:30px 20px 22px;border:1px solid #1d5a78;border-radius:26px;background:linear-gradient(145deg,#0c2a45f2,#081728f2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 16px 40px #0004;margin-bottom:8px}
+.hero>*:not(.deco){position:relative;z-index:1}
+.deco{position:absolute;pointer-events:none;z-index:0;opacity:.22}
+.deco svg{display:block;width:100%;height:100%}
+.deco.left{left:-14px;top:-6px;width:130px;height:110px}
+.deco.right{right:-10px;bottom:-8px;width:130px;height:100px}
+.avatar{width:88px;height:88px;margin:0 auto 14px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#00e0b5,#67baff);box-shadow:0 0 34px #00e0b53a}
+.avatar-in{width:100%;height:100%;border-radius:50%;background:linear-gradient(145deg,#12324c,#0a1b2d);display:grid;place-items:center;color:var(--teal)}
+.avatar svg{width:40px;height:40px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.pseudo{font-size:23px;font-weight:800;letter-spacing:-.4px;overflow-wrap:anywhere}
+.role{font-size:13px;color:var(--muted);margin-top:5px;overflow-wrap:anywhere}
+.status{display:inline-flex;align-items:center;gap:7px;margin-top:12px;border-radius:999px;padding:6px 12px;background:#10463f;color:#6ff0c8;font-size:12px;font-weight:700}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+.refbox{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:20px;padding:12px 12px 12px 16px;border:1px solid #24536d;border-radius:18px;background:#061525cc;text-align:left}
+.reflabel{font-size:10px;color:var(--muted);letter-spacing:1.4px;text-transform:uppercase}
+.refcode{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:17px;font-weight:700;color:#dff7ff;margin-top:3px;overflow-wrap:anywhere}
+.copy{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:1px solid #2a5673;border-radius:13px;background:linear-gradient(160deg,#13324c,#0b2236);color:#e9f6ff;padding:10px 13px;font-size:13px;font-weight:700;transition:border-color .15s}
+.copy:hover{border-color:#00e0b580}
+.copy svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Sections */
+.section-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin:24px 4px 10px}
+.menu{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#0b1b2ee8;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.item{width:100%;display:flex;align-items:center;gap:14px;padding:15px 16px;border:0;border-bottom:1px solid #16344a;background:transparent;color:var(--text);text-align:left;text-decoration:none;transition:background .15s}
+.item:last-child{border-bottom:0}
+.item:hover,.item:active{background:#12304a}
+.item-icon{width:44px;height:44px;border:1px solid #1f5a78;background:linear-gradient(145deg,#12324c,#0b2237);border-radius:15px;display:grid;place-items:center;color:var(--teal);flex-shrink:0}
+.item-icon svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.item-copy{flex:1;min-width:0}
+.item-title{font-size:15px;font-weight:700}
+.item-desc{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.chev{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:#5f7f99;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logout{color:var(--red)}
+.logout .item-icon{color:var(--red);border-color:#6b3a44;background:linear-gradient(145deg,#3b1c27,#2a1620)}
+.note{color:#73899f;text-align:center;font-size:11px;line-height:1.5;margin:22px 8px 0}
+
+/* ===== Menu radial (identique au dashboard) ===== */
+.fab-wrap{position:fixed;left:18px;bottom:22px;z-index:20;width:64px;height:64px}
+.fab{width:64px;height:64px;border-radius:50%;border:2px solid var(--teal);background:linear-gradient(145deg,#073a40,#062c34);color:var(--teal);box-shadow:0 0 24px #00e0b555;cursor:pointer;position:relative;z-index:2;transition:transform .25s;display:grid;place-items:center;padding:0}
+.fab svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.fab.open{transform:rotate(45deg)}
+.radial-item{position:absolute;left:8px;bottom:8px;width:48px;height:48px;border-radius:50%;border:1px solid #1f6b86;background:linear-gradient(145deg,#12324c,#0b2237);color:#bff5e8;display:grid;place-items:center;text-decoration:none;box-shadow:0 8px 22px #0006,0 0 18px #00e0b514;opacity:0;pointer-events:none;transform:translate(0,0) scale(.5);transition:transform .25s,opacity .25s;white-space:nowrap}
+.radial-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.radial-item span{position:absolute;left:53px;font-size:12px;font-weight:700;color:var(--text);letter-spacing:.2px;background:#0b1b2e;border:1px solid #21465f;border-radius:8px;padding:5px 8px;box-shadow:0 6px 16px #0005}
+.radial-item:hover,.radial-item:active{color:#06231e;background:var(--teal);border-color:var(--teal)}
+.fab-wrap.open .radial-item{opacity:1;pointer-events:auto}
+.fab-wrap.open .radial-item:nth-child(2){transform:translate(0,-82px) scale(1)}
+.fab-wrap.open .radial-item:nth-child(3){transform:translate(57px,-68px) scale(1)}
+.fab-wrap.open .radial-item:nth-child(4){transform:translate(91px,-24px) scale(1)}
+.fab-wrap.open .radial-item:nth-child(5){transform:translate(103px,29px) scale(1)}
+.fab-wrap.open .radial-item:nth-child(6){transform:translate(67px,73px) scale(1)}
+.fab-wrap.open .radial-item:nth-child(7){transform:translate(5px,91px) scale(1)}
+@media(min-width:560px){.fab-wrap{left:max(24px,calc((100vw - 620px)/2 - 82px));bottom:26px}}
+@media(max-width:390px){.page{padding:18px 12px 120px}.hero{padding:26px 16px 18px}.refcode{font-size:15px}}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-photo" style="--bg-photo:none"></div><div class="bg-grid"></div>
+  <svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient></defs><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#00e0b5" stroke-width="2.5" stroke-linejoin="round"/></svg>
+  <div id="bgcoins"></div>
+</div>
+
+<main class="page">
+  <header>
+    <a class="back" href="dashboard.html" aria-label="Retour à l'accueil"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
+    <div><div class="brand">HASH<span>CRYPTO</span></div><div class="eyebrow">Espace personnel</div></div>
+  </header>
+
+  <div id="error" class="toast" role="alert"></div>
+
+  <section class="hero" aria-label="Informations du compte">
+    <div class="deco left" aria-hidden="true"><svg viewBox="0 0 130 110"><g fill="none" stroke="#67baff" stroke-width="2.6" stroke-linejoin="round"><polygon points="40,10 62,23 62,49 40,62 18,49 18,23"/><polygon points="84,34 106,47 106,73 84,86 62,73 62,47" opacity=".7"/></g></svg></div>
+    <div class="deco right" aria-hidden="true"><svg viewBox="0 0 130 100"><path d="M4 84 L34 62 L58 72 L88 40 L126 16" fill="none" stroke="#00e0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M106 14h20v20" fill="none" stroke="#00e0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="avatar" aria-hidden="true"><div class="avatar-in"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div></div>
+    <div class="pseudo" id="pseudo">Chargement du profil…</div>
+    <div class="role" id="email">Membre HASHCRYPTO</div>
+    <span class="status" id="accountStatus">Compte</span>
+    <div class="refbox">
+      <div><div class="reflabel">Code de parrainage</div><div class="refcode" id="refcode">—</div></div>
+      <button class="copy" id="copyCode" type="button" aria-label="Copier le code"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span id="copyLabel">Copier</span></button>
+    </div>
+  </section>
+
+  <div class="section-title">Mon compte</div>
+  <section class="menu">
+    <a class="item" href="informations.html">
+      <span class="item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+      <span class="item-copy"><div class="item-title">Informations personnelles</div><div class="item-desc">Consulter les informations de votre compte</div></span>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <a class="item" href="securite.html">
+      <span class="item-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span>
+      <span class="item-copy"><div class="item-title">Sécurité</div><div class="item-desc">Modifier votre mot de passe</div></span>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <a class="item" href="comptes-retrait.html">
+      <span class="item-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></span>
+      <span class="item-copy"><div class="item-title">Comptes de retrait</div><div class="item-desc">Gérer vos coordonnées de paiement</div></span>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+    <a class="item" href="equipe.html">
+      <span class="item-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg></span>
+      <span class="item-copy"><div class="item-title">Mon parrain</div><div class="item-desc">Accéder à votre code et lien d’invitation</div></span>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </section>
+
+  <div class="section-title">Informations légales</div>
+  <section class="menu">
+    <a class="item" href="conditions.html">
+      <span class="item-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span>
+      <span class="item-copy"><div class="item-title">Conditions et politique</div><div class="item-desc">Consulter les conditions d’utilisation</div></span>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </a>
+  </section>
+
+  <div class="section-title">Session</div>
+  <section class="menu">
+    <button class="item logout" id="logout" type="button">
+      <span class="item-icon"><svg viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg></span>
+      <span class="item-copy"><div class="item-title">Déconnexion</div><div class="item-desc">Fermer votre session HASHCRYPTO</div></span>
+      <svg class="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </section>
+  <p class="note">Protégez vos identifiants et ne partagez jamais votre mot de passe.</p>
+</main>
+
+<!-- Menu radial -->
+<div class="fab-wrap" id="fabWrap">
+  <a class="radial-item" href="dashboard.html" aria-label="Accueil"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>Accueil</span></a>
+  <a class="radial-item" href="minage.html" aria-label="Minage"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg><span>Minage</span></a>
+  <a class="radial-item" href="groupe.html" aria-label="Groupe"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.2" cy="9" r="2.5"/><path d="M16.2 14.3c2.8.3 4.8 2.5 4.8 5.7"/></svg><span>Groupe</span></a>
+  <a class="radial-item" href="equipe.html" aria-label="Équipe"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="18" cy="18" r="2.6"/><path d="M8.3 10.8 15.7 7.2M8.3 13.2l7.4 3.6"/></svg><span>Équipe</span></a>
+  <a class="radial-item" href="portefeuille.html" aria-label="Portefeuille"><svg viewBox="0 0 24 24"><path d="M5 7.5h13a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H6a3 3 0 0 1-3-3V7a2 2 0 0 1 2-2h11"/><circle cx="16" cy="13.7" r="1.1"/></svg><span>Portefeuille</span></a>
+  <a class="radial-item" href="profil.html" aria-label="Profil"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c0-4.1 3.4-7 7.5-7s7.5 2.9 7.5 7"/></svg><span>Profil</span></a>
+  <button class="fab" id="fab" aria-label="Ouvrir le menu" aria-expanded="false" type="button"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+</div>
+
+<script>
+(() => {
+  /* ===== Pièces de fond ===== */
+  const C={btc:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',eth:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',usdt:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',hash:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'};
+  const L=[['btc',84,'88%','6%',22,0,0],['eth',60,'4%','18%',24,-4,0],['usdt',66,'90%','48%',20,-2,1],['hash',54,'3%','58%',25,-6,1],['btc',100,'80%','80%',28,-9,1],['eth',48,'46%','90%',23,-3,1],['usdt',44,'55%','4%',26,-1,1]];
+  const wrapC=document.getElementById('bgcoins');
+  L.forEach(([k,sz,l,t,d,dl,b],i)=>{const e=document.createElement('span');e.className='bgcoin'+(b?' blur':'');e.style.cssText=`width:${sz}px;height:${sz}px;left:${l};top:${t};--d:${d}s;--delay:${dl}s;--dx:${(i%2?-1:1)*(12+i*3)}px;--dy:${-20-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;e.innerHTML=C[k].replace(/id="(g[A-Z])"/g,`id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g,`url(#$1${i})`);wrapC.appendChild(e)});
+
+  /* ===== Profil ===== */
+  const AUTH_API = 'https://dcpgsrcrwnkcznykehgt.supabase.co/functions/v1/hashcoin-auth';
+  const ACCOUNT_API = 'https://dcpgsrcrwnkcznykehgt.supabase.co/functions/v1/hashcoin-account';
+  const token = localStorage.getItem('hashcoin_token') || sessionStorage.getItem('hashcoin_token');
+  const storedUser = (() => { try { return JSON.parse(localStorage.getItem('hashcoin_user') || sessionStorage.getItem('hashcoin_user') || '{}'); } catch { return {}; } })();
+  const errorBox = document.getElementById('error');
+  const showError = (msg) => { errorBox.textContent = msg; errorBox.style.display = 'block'; };
+  const hideError = () => { errorBox.style.display = 'none'; };
+  const post = async (url, action, extra = {}) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', ...(token ? {'Authorization':'Bearer ' + token} : {})},
+      body: JSON.stringify({action, ...extra})
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || data.error) throw new Error(data.error || data.message || `Erreur HTTP ${response.status}`);
+    return data;
+  };
+  const getField = (obj, keys) => { for (const key of keys) if (obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key]; return ''; };
+  async function loadProfile() {
+    if (!token) {
+      document.getElementById('pseudo').textContent = storedUser.pseudo || 'Profil HASHCRYPTO';
+      document.getElementById('email').textContent = storedUser.email || 'Connectez-vous pour afficher votre compte';
+      document.getElementById('refcode').textContent = storedUser.referral_code || '—';
+      showError('Aucune session détectée. Connectez-vous pour afficher les informations réelles de votre profil.');
+      return;
+    }
+    try {
+      const data = await post(ACCOUNT_API, 'profile');
+      const p = data.profile || data.user || data;
+      document.getElementById('pseudo').textContent = getField(p, ['pseudo','username']) || storedUser.pseudo || 'Utilisateur HASHCRYPTO';
+      document.getElementById('email').textContent = getField(p, ['email']) || storedUser.email || 'Membre HASHCRYPTO';
+      document.getElementById('refcode').textContent = getField(p, ['referral_code','referralCode']) || storedUser.referral_code || '—';
+      const blocked = p.is_blocked === true || p.blocked === true;
+      const st = document.getElementById('accountStatus');
+      st.textContent = blocked ? 'Compte suspendu' : 'Compte actif';
+      if (blocked) { st.style.background = '#3a2028'; st.style.color = '#ff9aa5'; }
+      hideError();
+      try { localStorage.setItem('hashcoin_user', JSON.stringify({...storedUser, ...p})); } catch {}
+    } catch (e) {
+      document.getElementById('pseudo').textContent = storedUser.pseudo || 'Profil HASHCRYPTO';
+      document.getElementById('email').textContent = storedUser.email || 'Membre HASHCRYPTO';
+      document.getElementById('refcode').textContent = storedUser.referral_code || '—';
+      showError('Impossible de charger les données du profil : ' + e.message);
+    }
+  }
+  document.getElementById('copyCode').addEventListener('click', async () => {
+    const code = document.getElementById('refcode').textContent.trim();
+    const label = document.getElementById('copyLabel');
+    if (!code || code === '—') return showError('Le code de parrainage n’est pas encore disponible.');
+    try { await navigator.clipboard.writeText(code); label.textContent = 'Copié'; setTimeout(() => label.textContent = 'Copier', 1600); }
+    catch { showError('Copie impossible sur cet appareil. Code : ' + code); }
+  });
+  document.getElementById('logout').addEventListener('click', async () => {
+    try { if (token) await post(AUTH_API, 'logout'); } catch (e) { console.warn('Logout API:', e.message); }
+    localStorage.removeItem('hashcoin_token'); localStorage.removeItem('hashcoin_user');
+    sessionStorage.removeItem('hashcoin_token'); sessionStorage.removeItem('hashcoin_user');
+    location.href = 'connexion.html';
+  });
+
+  /* ===== Menu radial ===== */
+  const fab = document.getElementById('fab'), wrap = document.getElementById('fabWrap');
+  fab.addEventListener('click', () => { const open = wrap.classList.toggle('open'); fab.classList.toggle('open', open); fab.setAttribute('aria-expanded', String(open)); });
+  document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) { wrap.classList.remove('open'); fab.classList.remove('open'); fab.setAttribute('aria-expanded','false'); } });
+  loadProfile();
+})();
+</script>
+</body>
+</html>
