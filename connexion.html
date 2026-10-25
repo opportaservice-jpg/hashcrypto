@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050b16">
+<title>Connexion — HASHCRYPTO</title>
+<style>
+:root{color-scheme:dark;--bg:#050b16;--text:#f4f7ff;--muted:#98a7bd;--cyan:#49e0b5;--blue:#70a7ff}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{min-height:100vh;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);display:grid;place-items:center;padding:24px;position:relative;overflow-x:hidden}
+
+/* ===== ARRIÈRE-PLAN CRYPTO ===== */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+  background:
+   radial-gradient(ellipse at 10% 10%,#0f3a4d 0,transparent 42%),
+   radial-gradient(ellipse at 90% 90%,#1a2c64 0,transparent 42%),
+   radial-gradient(ellipse at 80% 15%,#3a2a0f55 0,transparent 35%),
+   var(--bg)}
+/* Pour une vraie photo : remplacez none par url('votre-image.jpg') */
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.22;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#49e0b50f 1px,transparent 1px),linear-gradient(90deg,#49e0b50f 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:42vh;opacity:.55}
+.coin{position:absolute;display:block;will-change:transform;animation:float var(--d,18s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 12px 30px #0008)}
+.coin svg{display:block;width:100%;height:100%}
+@keyframes float{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-34px),0) rotate(var(--r1,10deg))}}
+.blur{filter:blur(5px) drop-shadow(0 12px 30px #0008);opacity:.55}
+
+/* ===== PAGE ===== */
+.shell{position:relative;z-index:1;width:100%;max-width:440px}
+.brand{text-align:center;margin-bottom:26px}
+.brand h1{margin:0;font-size:28px;font-weight:900;letter-spacing:6px;background:linear-gradient(90deg,#fff,#49e0b5 60%,#70a7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand p{margin:10px 0 0;color:var(--muted);font-size:12px;letter-spacing:2px}
+.card{background:linear-gradient(150deg,#102139e6,#0a1626e6);border:1px solid #2a4560;border-radius:28px;padding:30px;box-shadow:0 24px 80px #0007,0 0 0 1px #49e0b514 inset;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.card h2{margin:0 0 7px;font-size:24px;letter-spacing:-.4px}
+.intro{margin:0 0 22px;color:var(--muted);font-size:14px;line-height:1.5}
+label{display:block;font-size:13px;font-weight:650;margin:17px 0 8px;color:#dce6f7}
+.field{position:relative}
+input{width:100%;height:50px;border:1.5px solid #2b4058;border-radius:16px;padding:0 16px;background:linear-gradient(180deg,#0a1a2d,#071321);color:var(--text);font-size:15px;outline:none;transition:border-color .18s,box-shadow .18s,background .18s;box-shadow:inset 0 2px 6px #0006}
+input:hover{border-color:#3a5675}
+input:focus{border-color:var(--cyan);box-shadow:0 0 0 4px #49e0b51f,inset 0 2px 6px #0006;background:#08182a}
+input::placeholder{color:#60718b}
+.password input{padding-right:54px}
+.toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;border-radius:11px;background:transparent;color:#8da3ba;cursor:pointer;display:grid;place-items:center;padding:0;transition:color .15s,background .15s}
+.toggle:hover{color:var(--cyan);background:#49e0b512}
+.toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.toggle .slash{display:none}.toggle.on .slash{display:block}.toggle.on{color:var(--cyan)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px 0 22px;font-size:12px}
+.remember{display:flex;align-items:center;gap:8px;color:var(--muted);margin:0;font-weight:400}
+.remember input{width:15px;height:15px;accent-color:var(--cyan);padding:0;box-shadow:none;border-radius:4px}
+.link{color:var(--cyan);text-decoration:none}
+.link:hover{text-decoration:underline}
+.submit{width:100%;height:52px;border:0;border-radius:16px;background:linear-gradient(100deg,#49e0b5,#8af0cf);color:#06151c;font-size:15px;font-weight:850;cursor:pointer;box-shadow:0 8px 24px #49e0b52e;transition:transform .15s,opacity .15s}
+.submit:hover{transform:translateY(-1px)}
+.submit:disabled{opacity:.6;cursor:wait;transform:none}
+.message{display:none;margin:0 0 16px;border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.5}
+.message.error{display:block;color:#ffd0d0;background:#481f2b;border:1px solid #713244}
+.message.ok{display:block;color:#c5ffe1;background:#12382e;border:1px solid #246c52}
+.foot{text-align:center;color:var(--muted);font-size:13px;margin:22px 0 0}
+.fine{text-align:center;color:#687a94;font-size:11px;line-height:1.5;margin:18px auto 0;max-width:350px}
+@media(max-width:420px){body{padding:16px}.card{padding:23px 19px;border-radius:22px}.brand h1{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.coin{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-photo" style="--bg-photo:none"></div>
+  <div class="bg-grid"></div>
+  <svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#49e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#49e0b5" stop-opacity="0"/></linearGradient>
+    </defs>
+    <path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/>
+    <path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#49e0b5" stroke-width="2.5" stroke-linejoin="round"/>
+    <g stroke-width="2" opacity=".5"><g stroke="#49e0b5"><path d="M60 250v-60M230 200v-70M380 150v-60M530 125v-60M690 100v-60M850 85v-60M1010 70v-60"/></g></g>
+  </svg>
+  <div id="coins"></div>
+</div>
+
+<main class="shell">
+  <header class="brand">
+    <h1>HASHCRYPTO</h1>
+    <p>ACCÉDEZ À VOTRE ESPACE</p>
+  </header>
+  <section class="card">
+    <h2>Bon retour</h2>
+    <p class="intro">Connectez-vous pour retrouver votre portefeuille et vos activités.</p>
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+    <form id="loginForm" novalidate>
+      <label for="identifier" style="margin-top:0">Pseudo ou adresse e-mail</label>
+      <input id="identifier" name="identifier" type="text" autocomplete="username" placeholder="Votre pseudo ou e-mail" required maxlength="254">
+      <label for="password">Mot de passe</label>
+      <div class="field password">
+        <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Votre mot de passe" required maxlength="128">
+        <button class="toggle" type="button" id="togglePassword" aria-label="Afficher le mot de passe" title="Afficher / masquer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg>
+        </button>
+      </div>
+      <div class="row">
+        <label class="remember"><input id="remember" type="checkbox" checked> Garder ma session sur cet appareil</label>
+        <a class="link" href="mot-de-passe-oublie.html" id="forgotLink">Mot de passe oublié ?</a>
+      </div>
+      <button class="submit" id="submitBtn" type="submit">Se connecter</button>
+    </form>
+    <p class="foot">Pas encore de compte ? <a class="link" href="index.html">Créer un compte</a></p>
+  </section>
+  <p class="fine">HASHCRYPTO utilise un système de session propre à la plateforme. Ne partagez jamais votre mot de passe.</p>
+</main>
+
+<script>
+(() => {
+  /* ===== Pièces flottantes ===== */
+  const COINS = {
+    btc: '<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="none" stroke="#b9730f" stroke-opacity=".5" stroke-width="2"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',
+    eth: '<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',
+    usdt: '<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',
+    hash: '<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'
+  };
+  const layout = [
+    ['btc',96,'6%','10%',20,0,false],['eth',70,'88%','14%',22,-4,false],['usdt',80,'92%','58%',19,-2,false],
+    ['hash',62,'4%','72%',24,-6,false],['btc',54,'46%','86%',21,-3,true],['eth',46,'38%','6%',26,-8,true],
+    ['usdt',44,'62%','8%',23,-1,true],['btc',120,'78%','78%',28,-9,true],['hash',50,'20%','88%',25,-5,true],
+    ['eth',58,'2%','40%',22,-7,true]
+  ];
+  const wrap = document.getElementById('coins');
+  layout.forEach(([k,size,left,top,dur,delay,blur],i) => {
+    const el = document.createElement('span');
+    el.className = 'coin' + (blur ? ' blur' : '');
+    el.style.cssText = `width:${size}px;height:${size}px;left:${left};top:${top};--d:${dur}s;--delay:${delay}s;--dx:${(i%2?-1:1)*(14+i*3)}px;--dy:${-22-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;
+    el.innerHTML = COINS[k].replace(/id="(g[A-Z])"/g, `id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g, `url(#$1${i})`);
+    wrap.appendChild(el);
+  });
+
+  /* ===== Connexion ===== */
+  const API = "https://dcpgsrcrwnkcznykehgt.supabase.co/functions/v1/hashcoin-auth";
+  const form = document.getElementById("loginForm");
+  const identifier = document.getElementById("identifier");
+  const password = document.getElementById("password");
+  const button = document.getElementById("submitBtn");
+  const message = document.getElementById("message");
+  const toggle = document.getElementById("togglePassword");
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = "message " + type;
+  }
+
+  toggle.addEventListener("click", () => {
+    const show = password.type === "password";
+    password.type = show ? "text" : "password";
+    toggle.classList.toggle("on", show);
+    toggle.setAttribute("aria-label", show ? "Masquer le mot de passe" : "Afficher le mot de passe");
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const login = identifier.value.trim();
+    const pass = password.value;
+    if (!login || !pass) {
+      showMessage("Veuillez renseigner votre pseudo ou e-mail et votre mot de passe.", "error");
+      return;
+    }
+    button.disabled = true;
+    button.textContent = "Connexion en cours…";
+    message.className = "message";
+    try {
+      const response = await fetch(API, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({action: "login", identifier: login, password: pass})
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Connexion impossible. Réessayez.");
+      if (!data.token || !data.user) throw new Error("Réponse du serveur incomplète. Réessayez.");
+      const storage = document.getElementById("remember").checked ? localStorage : sessionStorage;
+      storage.setItem("hashcoin_token", data.token);
+      storage.setItem("hashcoin_user", JSON.stringify(data.user));
+      showMessage("Connexion réussie. Ouverture de votre espace…", "ok");
+      const destination = data.user.is_admin ? "admin.html" : "dashboard.html";
+      window.setTimeout(() => { window.location.href = destination; }, 450);
+    } catch (error) {
+      showMessage(error.message || "Une erreur est survenue. Réessayez plus tard.", "error");
+    } finally {
+      button.disabled = false;
+      button.textContent = "Se connecter";
+    }
+  });
+})();
+</script>
+</body>
+</html>
