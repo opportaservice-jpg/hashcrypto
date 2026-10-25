@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06111f"><title>HASHCRYPTO — Dashboard</title>
+<style>
+:root{--bg:#06111f;--panel:#0b1b2e;--panel2:#10243a;--line:#173d59;--teal:#00e0b5;--blue:#67baff;--muted:#91aac4;--white:#f5f9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#0b2b40 0,transparent 38%),var(--bg);color:var(--white);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;padding:22px 16px 40px}
+main{max-width:620px;margin:auto}.top{display:flex;align-items:center;gap:12px;margin-bottom:22px}.logo{width:48px;height:48px;border:2px solid var(--teal);border-radius:16px;display:grid;place-items:center;color:var(--teal);font-size:25px;font-weight:900;box-shadow:0 0 22px #00e0b52b}.brand{font-size:23px;font-weight:850;letter-spacing:.5px}.brand span{color:var(--teal)}.tag{font-size:12px;color:var(--muted);margin-top:3px}
+.card{background:linear-gradient(145deg,#0b2037,#081728);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:14px;box-shadow:0 12px 28px #0002}.label{font-size:13px;color:var(--muted)}.balance{font-size:clamp(30px,7vw,42px);font-weight:850;letter-spacing:-1px;margin:8px 0}.hint{color:var(--teal);font-size:13px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:20px}.action{border:1px solid #1b5272;border-radius:13px;padding:13px 5px;text-align:center;color:var(--white);background:#102943;font-weight:700;text-decoration:none;cursor:pointer}.action.primary{background:var(--teal);color:#05201b;border-color:var(--teal)}.action .sym{display:block;font-size:21px;margin-bottom:5px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:16px}.stat strong{display:block;font-size:22px;margin-top:8px}.section-title{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:18px;margin-bottom:13px}.link{color:var(--teal);font-size:13px;text-decoration:none;cursor:pointer}.asset,.activity{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #18354b}.coin{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#17364b;color:var(--teal);font-weight:900;font-size:17px}.coin.btc{background:#493416;color:#ffbd48}.coin.usdt{background:#10463f;color:#35e2b9}.grow{flex:1;min-width:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}.right{text-align:right;font-weight:700}.right .sub{font-weight:400}.empty{font-size:13px;color:var(--muted);padding:8px 0}
+.fab-wrap{position:fixed;left:18px;bottom:22px;z-index:20;width:64px;height:64px}.fab{width:64px;height:64px;border-radius:50%;border:2px solid var(--teal);background:#062c34;color:var(--teal);font-size:38px;line-height:1;box-shadow:0 0 24px #00e0b555;cursor:pointer;position:relative;z-index:2;transition:transform .25s}.fab.open{transform:rotate(45deg)}.radial-item{position:absolute;left:8px;bottom:8px;width:48px;height:48px;border-radius:50%;border:1px solid #167c9d;background:#102b43;color:#e9f7ff;display:grid;place-items:center;text-decoration:none;box-shadow:0 0 18px #00cdb51a;opacity:0;pointer-events:none;transform:translate(0,0) scale(.5);transition:transform .25s,opacity .25s;white-space:nowrap}.radial-item span{position:absolute;left:53px;font-size:12px;font-weight:700;background:#0b1b2e;border:1px solid #21465f;border-radius:8px;padding:5px 8px}.fab-wrap.open .radial-item{opacity:1;pointer-events:auto}.fab-wrap.open .radial-item:nth-child(2){transform:translate(0,-82px) scale(1)}.fab-wrap.open .radial-item:nth-child(3){transform:translate(57px,-68px) scale(1)}.fab-wrap.open .radial-item:nth-child(4){transform:translate(91px,-24px) scale(1)}.fab-wrap.open .radial-item:nth-child(5){transform:translate(103px,29px) scale(1)}.fab-wrap.open .radial-item:nth-child(6){transform:translate(67px,73px) scale(1)}.fab-wrap.open .radial-item:nth-child(7){transform:translate(5px,91px) scale(1)}.radial-item:active{background:#07574e}
+.modal-back{position:fixed;inset:0;background:#0009;display:none;align-items:flex-end;justify-content:center;z-index:40;padding:14px}.modal-back.show{display:flex}.modal{width:min(100%,520px);max-height:90vh;overflow:auto;background:#0a1b2d;border:1px solid #24506c;border-radius:22px;padding:20px;box-shadow:0 20px 60px #0008}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.close{border:0;background:#18334b;color:white;border-radius:10px;padding:8px 12px;font-size:18px}.field{display:block;width:100%;margin:8px 0 14px;padding:13px;background:#071525;color:white;border:1px solid #26465e;border-radius:11px;font-size:15px}.field:focus{outline:1px solid var(--teal)}.btn{width:100%;padding:14px;border:0;border-radius:12px;background:var(--teal);color:#04231e;font-weight:850;font-size:15px;cursor:pointer}.notice{font-size:13px;color:var(--muted);line-height:1.5;margin:10px 0}.result{font-size:13px;margin:10px 0;color:var(--teal);white-space:pre-wrap}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ratebox{background:#071525;border:1px solid #1a3b52;border-radius:12px;padding:12px;margin:12px 0;font-size:13px;line-height:1.7}
+@media(min-width:560px){body{padding:28px}.fab-wrap{left:max(24px,calc((100vw - 620px)/2 - 82px));bottom:26px}.modal-back{align-items:center}}
+
+/* ===== Fond crypto ===== */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#0f3a4d 0,transparent 42%),radial-gradient(ellipse at 95% 95%,#1a2c64 0,transparent 42%),radial-gradient(ellipse at 85% 12%,#3a2a0f44 0,transparent 35%),var(--bg)}
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.2;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#00e0b50d 1px,transparent 1px),linear-gradient(90deg,#00e0b50d 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:36vh;opacity:.4}
+.bgcoin{position:absolute;display:block;opacity:.5;animation:bgfloat var(--d,20s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 10px 24px #0008)}
+.bgcoin svg{display:block;width:100%;height:100%}
+.bgcoin.blur{filter:blur(4px);opacity:.3}
+@keyframes bgfloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-30px),0) rotate(var(--r1,10deg))}}
+main{position:relative;z-index:1}
+.card{background:linear-gradient(145deg,#0b2037e8,#081728e8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:22px}
+.stat{background:#0b1b2ee8;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:20px}
+.brand{font-size:26px;font-weight:900;letter-spacing:3px}
+.field{border-radius:14px;border-width:1.5px}
+.btn{border-radius:14px}.modal{border-radius:26px}
+@media(prefers-reduced-motion:reduce){.bgcoin{animation:none}}
+/* ===== Icônes ===== */
+.radial-item svg,.fab svg,.action .sym svg{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.radial-item{background:linear-gradient(145deg,#12324c,#0b2237);border:1px solid #1f6b86;color:#bff5e8;box-shadow:0 8px 22px #0006,0 0 18px #00e0b514}
+.radial-item svg{width:22px;height:22px;stroke-width:1.8}
+.radial-item:hover,.radial-item:active{color:#06231e;background:var(--teal);border-color:var(--teal)}
+.radial-item span{color:var(--white);letter-spacing:.2px;box-shadow:0 6px 16px #0005}
+.fab{display:grid;place-items:center;padding:0;background:linear-gradient(145deg,#073a40,#062c34)}
+.fab svg{width:28px;height:28px;stroke-width:2.2}
+/* ===== Illustrations dans les cartes ===== */
+.card,.stat{position:relative;overflow:hidden}
+.card>*:not(.deco),.stat>*:not(.deco){position:relative;z-index:1}
+.deco{position:absolute;pointer-events:none;z-index:0}
+.deco svg{display:block;width:100%;height:100%}
+.deco-balance{right:0;top:0;bottom:0;width:62%;opacity:.4;-webkit-mask-image:linear-gradient(to left,#000 45%,transparent);mask-image:linear-gradient(to left,#000 45%,transparent)}
+.deco-sm{right:10px;bottom:8px;width:84px;height:56px;opacity:.28}
+.deco-md{right:14px;top:12px;width:78px;height:64px;opacity:.2}
+.card-balance{background:linear-gradient(135deg,#0c2a45f2,#081728f2);border-color:#1d5a78}
+/* ===== Boutons Déposer / Retirer / Convertir ===== */
+.actions{gap:10px;margin-top:22px}
+.action{display:flex;flex-direction:column;align-items:center;gap:9px;padding:14px 6px 13px;border-radius:18px;background:linear-gradient(160deg,#13324c,#0b2236);border:1px solid #1f5a78;font-size:13px;font-weight:700;letter-spacing:.2px;transition:transform .15s,border-color .15s,box-shadow .15s}
+.action:hover{transform:translateY(-2px);border-color:#00e0b580;box-shadow:0 10px 22px #0005}
+.action .sym{display:grid;place-items:center;width:42px;height:42px;margin:0;border-radius:50%;background:#00e0b51a;border:1px solid #00e0b53d;color:var(--teal)}
+.action .sym svg{width:22px;height:22px;stroke-width:2}
+.action.primary{background:linear-gradient(135deg,#00e0b5,#33cfee);border-color:transparent;color:#04231e;box-shadow:0 10px 26px #00e0b533}
+.action.primary .sym{background:#04231e1f;border-color:#04231e33;color:#04231e}
+/* ===== Pop-up Telegram ===== */
+.tg-back{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;background:#020712cc;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.tg-back.show{display:flex;animation:tgfade .25s ease}
+@keyframes tgfade{from{opacity:0}to{opacity:1}}
+@keyframes tgpop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+.tg-box{position:relative;width:100%;max-width:400px;text-align:center;background:linear-gradient(150deg,#12263f,#0a1626);border:1px solid #2a5870;border-radius:26px;padding:34px 26px 26px;box-shadow:0 30px 90px #000a,0 0 60px #00e0b51c;animation:tgpop .32s cubic-bezier(.2,.9,.3,1.2)}
+.tg-x{position:absolute;top:12px;right:12px;width:34px;height:34px;border:0;border-radius:11px;background:#18334b;color:#cfe3f5;font-size:20px;line-height:1;cursor:pointer}
+.tg-icon{width:72px;height:72px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:linear-gradient(135deg,#2aa8e8,#1b7fc4);box-shadow:0 0 34px #2aa8e855}
+.tg-icon svg{width:34px;height:34px;fill:#fff;margin-left:-3px}
+.tg-box h3{margin:0 0 10px;font-size:22px;letter-spacing:-.4px}
+.tg-box p{margin:0 0 22px;color:var(--muted);font-size:13.5px;line-height:1.6}
+.tg-join{display:block;width:100%;text-decoration:none;text-align:center;padding:15px 16px;border-radius:16px;background:linear-gradient(100deg,#00e0b5,#6ff0d2);color:#04231e;font-weight:850;font-size:15px;box-shadow:0 8px 24px #00e0b52e;transition:transform .15s}
+.tg-join:hover{transform:translateY(-1px)}
+.tg-later{margin-top:12px;border:0;background:transparent;color:var(--muted);font-size:13px;cursor:pointer;padding:8px}
+.tg-later:hover{color:var(--white)}
+</style></head>
+<body>
+<div class="bg" aria-hidden="true">
+<div class="bg-photo" style="--bg-photo:none"></div><div class="bg-grid"></div>
+<svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient></defs><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#00e0b5" stroke-width="2.5" stroke-linejoin="round"/></svg>
+<div id="bgcoins"></div>
+</div>
+<main>
+<header class="top"><div><div class="brand">HASH<span>CRYPTO</span></div><div class="tag">Minez aujourd’hui, construisez demain</div></div></header>
+<section class="card card-balance">
+<div class="deco deco-balance" aria-hidden="true"><svg viewBox="0 0 280 190"><defs><linearGradient id="dbA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".4"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient><radialGradient id="dbC" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><path d="M0 160 L40 140 L75 150 L110 112 L150 126 L190 84 L230 98 L280 52 L280 190 L0 190Z" fill="url(#dbA)"/><path d="M0 160 L40 140 L75 150 L110 112 L150 126 L190 84 L230 98 L280 52" fill="none" stroke="#00e0b5" stroke-width="2.2" stroke-linejoin="round"/><g stroke="#00e0b5" stroke-width="2" opacity=".7"><path d="M40 156v-34M110 128v-30M190 100v-34M230 114v-30"/></g><g fill="#00e0b5" opacity=".55"><rect x="35" y="132" width="10" height="16" rx="2"/><rect x="105" y="108" width="10" height="14" rx="2"/><rect x="185" y="80" width="10" height="14" rx="2"/><rect x="225" y="94" width="10" height="12" rx="2"/></g><circle cx="214" cy="62" r="46" fill="url(#dbC)" stroke="#ffd37a" stroke-width="3"/><circle cx="214" cy="62" r="37" fill="none" stroke="#b9730f" stroke-opacity=".5" stroke-width="2"/><text x="214" y="80" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg></div>
+<div class="label">Solde total estimé</div><div class="balance" id="totalBalance">— FCFA</div><div class="hint" id="quoteHint">Valeur indicative calculée avec les cours disponibles</div>
+<div class="actions"><button class="action primary" data-open="deposit"><span class="sym"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></span>Déposer</button><button class="action" data-open="withdraw"><span class="sym"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V9M7 13.5l5-5 5 5M5 4h14"/></svg></span>Retirer</button><button class="action" data-open="convert"><span class="sym"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14M14.5 4.5 18 8l-3.5 3.5M20 16H6M9.5 12.5 6 16l3.5 3.5"/></svg></span>Convertir</button></div>
+</section>
+<section class="stats"><div class="stat"><div class="deco deco-sm" aria-hidden="true"><svg viewBox="0 0 120 80"><path d="M4 66 L30 46 L52 56 L80 28 L116 12" fill="none" stroke="#00e0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M98 10h18v18" fill="none" stroke="#00e0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><g fill="#00e0b5" opacity=".5"><rect x="12" y="52" width="8" height="22" rx="2"/><rect x="40" y="46" width="8" height="28" rx="2"/><rect x="68" y="34" width="8" height="40" rx="2"/><rect x="96" y="24" width="8" height="50" rx="2"/></g></svg></div><div class="label">Gains cumulés</div><strong id="earnings">—</strong><div class="sub">Selon les règles de la plateforme</div></div><div class="stat"><div class="deco deco-sm" aria-hidden="true"><svg viewBox="0 0 120 80"><g fill="none" stroke="#67baff" stroke-width="2.6" stroke-linejoin="round"><polygon points="30,14 50,25 50,47 30,58 10,47 10,25"/><polygon points="70,14 90,25 90,47 70,58 50,47 50,25" opacity=".7"/><polygon points="90,36 110,47 110,69 90,80 70,69 70,47" opacity=".45"/></g><g fill="#67baff" opacity=".55"><circle cx="30" cy="36" r="4"/><circle cx="70" cy="36" r="3.4"/></g></svg></div><div class="label">Plans actifs</div><strong id="activePlans">—</strong><div class="sub">Plans en cours</div></div></section>
+<section class="card" style="margin-top:14px"><div class="deco deco-md" aria-hidden="true"><svg viewBox="0 0 110 90"><g fill="none" stroke="#00e0b5" stroke-width="2.6"><ellipse cx="55" cy="68" rx="38" ry="13"/><path d="M17 68v-12c0 7 17 13 38 13s38-6 38-13v12"/><ellipse cx="55" cy="50" rx="38" ry="13"/><path d="M17 50v-12c0 7 17 13 38 13s38-6 38-13v12"/><ellipse cx="55" cy="32" rx="38" ry="13"/></g><circle cx="55" cy="32" r="5" fill="#00e0b5" opacity=".5"/></svg></div><div class="section-title">Mes actifs <a class="link" href="#" data-open="wallet">Voir tout</a></div><div id="assets"><div class="empty">Chargement des portefeuilles…</div></div></section>
+<section class="card"><div class="deco deco-md" aria-hidden="true"><svg viewBox="0 0 110 90"><g fill="none" stroke="#67baff" stroke-width="2.6" stroke-linejoin="round"><rect x="4" y="30" width="28" height="28" rx="5"/><rect x="41" y="14" width="28" height="28" rx="5" opacity=".75"/><rect x="78" y="46" width="28" height="28" rx="5" opacity=".5"/><path d="M32 44h9M69 28h9v18" stroke-linecap="round"/></g></svg></div><div class="section-title">Mon activité <a class="link" href="#" data-open="history">Voir tout</a></div><div id="activity"><div class="empty">Les transactions récentes apparaîtront ici.</div></div></section>
+</main>
+<!-- No fixed bottom navigation: only the plus button stays in the lower-left corner. -->
+<div class="fab-wrap" id="fabWrap">
+<a class="radial-item" href="#" data-menu="home" aria-label="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>Accueil</span></a>
+<a class="radial-item" href="#" data-menu="mining" aria-label="Minage"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg><span>Minage</span></a>
+<a class="radial-item" href="#" data-menu="group" aria-label="Groupe"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.2" cy="9" r="2.5"/><path d="M16.2 14.3c2.8.3 4.8 2.5 4.8 5.7"/></svg><span>Groupe</span></a>
+<a class="radial-item" href="#" data-menu="team" aria-label="Équipe"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="18" cy="18" r="2.6"/><path d="M8.3 10.8 15.7 7.2M8.3 13.2l7.4 3.6"/></svg><span>Équipe</span></a>
+<a class="radial-item" href="#" data-menu="wallet" aria-label="Portefeuille"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7.5h13a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H6a3 3 0 0 1-3-3V7a2 2 0 0 1 2-2h11"/><circle cx="16" cy="13.7" r="1.1"/></svg><span>Portefeuille</span></a>
+<a class="radial-item" href="#" data-menu="profile" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c0-4.1 3.4-7 7.5-7s7.5 2.9 7.5 7"/></svg><span>Profil</span></a>
+<button class="fab" id="fab" aria-label="Ouvrir le menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+</div>
+<div class="modal-back" id="modalBack"><section class="modal"><div class="modal-head"><strong id="modalTitle">Conversion</strong><button class="close" id="closeModal" aria-label="Fermer">×</button></div><div id="modalBody"></div></section></div>
+<!-- Pop-up groupe officiel Telegram -->
+<div class="tg-back" id="tgBack" role="dialog" aria-modal="true" aria-labelledby="tgTitle">
+<div class="tg-box">
+<button class="tg-x" id="tgClose" aria-label="Fermer">×</button>
+<div class="tg-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.3 2.6 10.6c-.9.35-.88 1.6.03 1.92l4.7 1.6 1.8 5.6c.2.6.96.8 1.43.37l2.6-2.4 4.7 3.45c.6.45 1.47.12 1.63-.62L22.9 4.6c.2-.9-.64-1.6-1.4-1.3zM9.3 13.3l8.6-5.3c.2-.1.37.15.2.3l-7 6.4-.27 2.9-1.53-4.3z"/></svg></div>
+<h3 id="tgTitle">Rejoignez le groupe officiel</h3>
+<p>Retrouvez la communauté HASHCRYPTO sur Telegram : annonces officielles, actualités de la plateforme et assistance. Rejoignez-nous dès maintenant.</p>
+<a class="tg-join" id="tgJoin" href="https://t.me/+gRTjojg-iitlY2Rk" target="_blank" rel="noopener noreferrer">Rejoindre le groupe</a>
+<button class="tg-later" id="tgLater">Plus tard</button>
+</div></div>
+<script>
+const API='https://dcpgsrcrwnkcznykehgt.supabase.co/functions/v1/hashcoin-core';
+const token=localStorage.getItem('hashcoin_token')||sessionStorage.getItem('hashcoin_token')||'';
+let wallets=[], quote=null, livePlans=[];
+const $=id=>document.getElementById(id);
+function fmt(n,max=8){return Number(n||0).toLocaleString('fr-FR',{maximumFractionDigits:max})}
+async function api(action,extra={}){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify({action,token,...extra})});let d={};try{d=await r.json()}catch{}if(!r.ok)throw new Error(d.error||'Erreur de connexion au serveur');return d}
+function baseMoney(asset){const w=wallets.find(x=>String(x.asset||x.currency||'').toUpperCase()===asset);return Number(w?.balance??w?.available_balance??0)}
+function accruedNow(p){const start=new Date(p.started_at).getTime(),end=new Date(p.ends_at).getTime(),elapsed=Math.max(0,Math.min((Date.now()-start)/1000,(end-start)/1000));return Math.min(Number(p.total_revenue||0),Number(p.daily_revenue||0)*elapsed/86400)}
+function pending(asset){if(asset!=='BTC')return 0;return livePlans.filter(p=>(p.currency||'BTC').toUpperCase()==='BTC'&&p.status==='active').reduce((sum,p)=>sum+Math.max(0,accruedNow(p)-Number(p.credited_revenue||0)),0)}
+function money(asset){return baseMoney(asset)+pending(asset)}
+function rate(asset){return Number(quote?.assets?.[asset]?.xof_per_unit||0)}
+function total(){return ['XOF','USDT','BTC'].reduce((s,a)=>s+money(a)*rate(a),0)}
+function renderAssets(){if(!$('assets'))return;$('assets').innerHTML=['BTC','USDT','XOF'].map(a=>`<div class="asset"><div class="coin ${a.toLowerCase()}">${a==='BTC'?'₿':a==='USDT'?'₮':'F'}</div><div class="grow"><b>${a==='BTC'?'Bitcoin':a==='USDT'?'Tether':'Franc CFA'}</b><div class="sub">${a}</div></div><div class="right">${fmt(money(a),a==='XOF'?2:8)} ${a}<div class="sub">≈ ${fmt(money(a)*rate(a),2)} FCFA</div></div></div>`).join('')}
+function updateLive(){if(quote){$('totalBalance').textContent=fmt(total(),2)+' FCFA';const earned=livePlans.reduce((sum,p)=>sum+accruedNow(p)*rate((p.currency||'BTC').toUpperCase()),0);$('earnings').textContent=fmt(earned,2)+' FCFA';renderAssets()}}
+function openModal(title,body){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modalBack').classList.add('show')}
+function closeModal(){$('modalBack').classList.remove('show')}
+async function refresh(){try{const [q,w,p,t]=await Promise.all([api('quote'),api('wallet'),api('my_plans'),api('transactions',{limit:5})]);quote=q.quote;wallets=w.wallets||[];livePlans=p.plans||[];$('totalBalance').textContent=fmt(total(),2)+' FCFA';$('quoteHint').textContent='Cours actualisés : '+new Date(quote.quoted_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});const plans=p.plans||[];livePlans=plans;$('activePlans').textContent=plans.filter(x=>x.status==='active'||x.is_active===true).length;updateLive();const tx=t.transactions||[];$('activity').innerHTML=tx.length?tx.slice(0,5).map(x=>`<div class="activity"><div class="coin">${String(x.type||x.transaction_type||'T').slice(0,1).toUpperCase()}</div><div class="grow"><b>${esc(x.type||x.transaction_type||x.description||'Transaction')}</b><div class="sub">${esc(x.status||'Enregistrée')} · ${x.created_at?new Date(x.created_at).toLocaleString('fr-FR'):''}</div></div><div class="right">${x.amount!=null?fmt(x.amount,8)+' '+esc(x.asset||x.currency||''):''}</div></div>`).join(''):'<div class="empty">Aucune transaction récente.</div>'}catch(e){$('quoteHint').textContent=e.message;if(!token){$('assets').innerHTML='<div class="empty">Connectez-vous pour afficher vos soldes réels.</div>';$('activity').innerHTML='<div class="empty">Connectez-vous pour afficher votre activité.</div>'}}}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function convertUI(){openModal('Conversion automatique',`<div class="notice">Le taux est récupéré en temps réel. La conversion effective débite un portefeuille et crédite l’autre après validation par le serveur.</div><label class="label">Montant à convertir</label><input class="field" id="convAmount" type="number" min="0" step="any" placeholder="Ex. 5000"><div class="row"><div><label class="label">De</label><select class="field" id="fromAsset"><option>XOF</option><option>USDT</option><option>BTC</option></select></div><div><label class="label">Vers</label><select class="field" id="toAsset"><option>USDT</option><option>BTC</option><option>XOF</option></select></div></div><div class="ratebox" id="convPreview">Récupération du cours…</div><button class="btn" id="doConvert">Confirmer la conversion</button><div class="result" id="convResult"></div>`);const preview=()=>{const a=$('fromAsset').value,b=$('toAsset').value,n=Number($('convAmount').value);if(a===b){$('convPreview').textContent='Choisissez deux devises différentes.';return}if(!quote){$('convPreview').textContent='Cours indisponible.';return}const out=n>0&&rate(a)&&rate(b)?n*rate(a)/rate(b):0;$('convPreview').textContent=`1 ${a} ≈ ${fmt(rate(a)/rate(b),8)} ${b}\nSolde disponible : ${fmt(money(a),8)} ${a}\nMontant estimé reçu : ${fmt(out,8)} ${b}\nCours fourni par CoinGecko · ${new Date(quote.quoted_at).toLocaleTimeString('fr-FR')}`};['convAmount','fromAsset','toAsset'].forEach(id=>$(id).addEventListener('input',preview));preview();$('doConvert').onclick=async()=>{const a=$('fromAsset').value,b=$('toAsset').value,n=Number($('convAmount').value);$('convResult').textContent='';if(!token){$('convResult').textContent='Connectez-vous avant de convertir.';return}if(a===b||!Number.isFinite(n)||n<=0){$('convResult').textContent='Vérifiez le montant et les deux devises.';return}if(n>money(a)){$('convResult').textContent='Solde insuffisant.';return}const btn=$('doConvert');btn.disabled=true;btn.textContent='Conversion en cours…';try{const d=await api('convert',{from_asset:a,to_asset:b,amount:n});$('convResult').textContent='Conversion effectuée. Les soldes sont actualisés.';await refresh();setTimeout(closeModal,1200)}catch(e){$('convResult').textContent=e.message}finally{btn.disabled=false;btn.textContent='Confirmer la conversion'}}}
+document.querySelectorAll('[data-open="convert"]').forEach(b=>b.addEventListener('click',convertUI));
+document.querySelectorAll('[data-open="deposit"],[data-open="withdraw"]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.open==='deposit'?'Dépôt':'Retrait',`<div class="notice">Le formulaire complet de ${b.dataset.open==='deposit'?'dépôt':'retrait'} sera accessible depuis la page dédiée.</div><button class="btn" onclick="location.href='${b.dataset.open==='deposit'?'depot.html':'retrait.html'}'">Continuer</button>`)));
+document.querySelectorAll('[data-open="wallet"]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();openModal('Portefeuille',`<div class="notice">${['XOF','USDT','BTC'].map(a=>`${a} : ${fmt(money(a),8)} ${a}`).join('<br>')}</div><button class="btn" id="walletConvert">Convertir mes actifs</button>`);$('walletConvert').onclick=convertUI}));
+document.querySelectorAll('[data-open="history"]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();location.href='historique.html'}));
+$('fab').addEventListener('click',()=>{const opened=$('fabWrap').classList.toggle('open');$('fab').classList.toggle('open',opened);$('fab').setAttribute('aria-expanded',String(opened))});
+document.querySelectorAll('[data-menu]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const page={home:'dashboard.html',mining:'minage.html',group:'groupe.html',team:'equipe.html',wallet:'portefeuille.html',profile:'profil.html'}[a.dataset.menu];location.href=page}));
+$('closeModal').onclick=closeModal;$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))closeModal()});
+
+/* ===== Pièces de fond ===== */
+(()=>{const C={btc:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',eth:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',usdt:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',hash:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'};
+const L=[['btc',84,'88%','6%',22,0,0],['eth',60,'4%','18%',24,-4,0],['usdt',66,'90%','48%',20,-2,1],['hash',54,'3%','58%',25,-6,1],['btc',100,'80%','80%',28,-9,1],['eth',48,'46%','90%',23,-3,1],['usdt',44,'55%','4%',26,-1,1]];
+const w=document.getElementById('bgcoins');
+L.forEach(([k,sz,l,t,d,dl,b],i)=>{const e=document.createElement('span');e.className='bgcoin'+(b?' blur':'');e.style.cssText=`width:${sz}px;height:${sz}px;left:${l};top:${t};--d:${d}s;--delay:${dl}s;--dx:${(i%2?-1:1)*(12+i*3)}px;--dy:${-20-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;e.innerHTML=C[k].replace(/id="(g[A-Z])"/g,`id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g,`url(#$1${i})`);w.appendChild(e)});
+})();
+
+/* ===== Pop-up groupe Telegram : affiché une fois à chaque connexion ===== */
+(()=>{
+const KEY='hashcrypto_tg_seen',back=document.getElementById('tgBack');
+let seen=false;try{seen=sessionStorage.getItem(KEY)==='1'}catch{}
+function done(){back.classList.remove('show');try{sessionStorage.setItem(KEY,'1')}catch{}}
+document.getElementById('tgClose').addEventListener('click',done);
+document.getElementById('tgLater').addEventListener('click',done);
+document.getElementById('tgJoin').addEventListener('click',()=>{setTimeout(done,150)});
+back.addEventListener('click',e=>{if(e.target===back)done()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&back.classList.contains('show'))done()});
+if(!seen)setTimeout(()=>back.classList.add('show'),700);
+})();
+
+refresh();setInterval(updateLive,1000);setInterval(async()=>{try{const q=await api('quote');quote=q.quote;updateLive();$('quoteHint').textContent='Cours actualisés : '+new Date(quote.quoted_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}catch{}},60000);
+</script></body></html>
