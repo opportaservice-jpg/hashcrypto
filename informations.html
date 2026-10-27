@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06111f"><title>Informations personnelles — HASHCRYPTO</title>
+<style>
+:root{color-scheme:dark;--bg:#06111f;--panel:#0b1c2d;--line:#1b405b;--text:#f4f8ff;--muted:#92abc4;--teal:#00e0b5}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
+svg{display:block}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#0f3a4d 0,transparent 42%),radial-gradient(ellipse at 95% 95%,#1a2c64 0,transparent 42%),radial-gradient(ellipse at 85% 12%,#3a2a0f44 0,transparent 35%),var(--bg)}
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.2;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#00e0b50d 1px,transparent 1px),linear-gradient(90deg,#00e0b50d 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:36vh;opacity:.4}
+.bgcoin{position:absolute;display:block;opacity:.5;animation:bgfloat var(--d,20s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 10px 24px #0008)}
+.bgcoin svg{width:100%;height:100%}
+.bgcoin.blur{filter:blur(4px);opacity:.3}
+@keyframes bgfloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-30px),0) rotate(var(--r1,10deg))}}
+@media(prefers-reduced-motion:reduce){.bgcoin{animation:none}}
+
+.wrap{position:relative;z-index:1;width:min(100%,560px);margin:auto;padding:20px 16px 44px}
+.top{display:flex;align-items:center;gap:13px;margin:4px 0 22px}
+.back{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;background:#0b1b2ee8;backdrop-filter:blur(10px);transition:border-color .15s}
+.back:hover{border-color:#00e0b580}
+.back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand{font-size:15px;font-weight:900;letter-spacing:3px}
+.heading{font-size:22px;font-weight:800;margin:3px 0 0;letter-spacing:-.4px}
+
+.hero{position:relative;overflow:hidden;text-align:center;border:1px solid #1d5a78;border-radius:26px;padding:28px 20px 24px;background:linear-gradient(135deg,#0c2a45f2,#081728f2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);margin-bottom:14px}
+.hero>*:not(.deco){position:relative;z-index:1}
+.deco{position:absolute;pointer-events:none;z-index:0;opacity:.2}
+.deco svg{width:100%;height:100%}
+.deco.l{left:-14px;top:-6px;width:130px;height:110px}
+.deco.r{right:-10px;bottom:-8px;width:130px;height:100px}
+.avatar-ring{width:86px;height:86px;margin:0 auto 14px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#00e0b5,#67baff);box-shadow:0 0 34px #00e0b53a}
+.avatar{width:100%;height:100%;border-radius:50%;background:linear-gradient(145deg,#12324c,#0a1b2d);display:grid;place-items:center;color:var(--teal);font-size:32px;font-weight:900}
+.pseudo{font-size:22px;font-weight:800;letter-spacing:-.3px;overflow-wrap:anywhere}
+.subtitle{font-size:13px;color:var(--muted);margin-top:5px}
+
+.card{background:linear-gradient(145deg,#0b2037e8,#081728e8);border:1px solid var(--line);border-radius:24px;padding:18px;margin:14px 0;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.card h2{font-size:12px;margin:0 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #16344a}
+.row:last-of-type{border-bottom:0;padding-bottom:4px}
+.ricon{width:42px;height:42px;flex:0 0 42px;border-radius:50%;display:grid;place-items:center;color:var(--teal);border:1px solid #1f5a78;background:linear-gradient(145deg,#12324c,#0b2237)}
+.ricon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.rbody{flex:1;min-width:0}
+.label{font-size:12px;color:var(--muted);margin-bottom:4px}
+.value{font-size:15px;font-weight:650;overflow-wrap:anywhere}
+.refbox{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding:12px 12px 12px 16px;border:1px solid #24536d;border-radius:18px;background:#061525cc}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:19px;letter-spacing:2px;color:var(--teal);font-weight:800;overflow-wrap:anywhere}
+button,.action{font:inherit;cursor:pointer;border:1px solid #2a5673;border-radius:14px;padding:11px 14px;background:linear-gradient(160deg,#13324c,#0b2236);color:var(--text);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:border-color .15s,transform .15s}
+button:hover,.action:hover{border-color:#00e0b580}
+button:disabled{opacity:.5;cursor:not-allowed}
+button svg,.action svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.action{margin-top:6px;width:100%;height:50px}
+.note{font-size:12px;color:var(--muted);line-height:1.55;margin:12px 0 0}
+.notice{display:none;padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.45;margin:12px 0}
+.notice.show{display:block}
+.notice.error{background:#3b1c27;color:#ffd0d0;border:1px solid #713244}
+.notice.ok{background:#12382e;color:#c5ffe1;border:1px solid #246c52}
+.foot{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:#7f95aa;line-height:1.55;margin-top:18px}
+.foot svg{width:15px;height:15px;flex:0 0 15px;margin-top:2px;fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style></head><body>
+<div class="bg" aria-hidden="true"><div class="bg-photo" style="--bg-photo:none"></div><div class="bg-grid"></div>
+<svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient></defs><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#00e0b5" stroke-width="2.5" stroke-linejoin="round"/></svg>
+<div id="bgcoins"></div></div>
+
+<main class="wrap">
+<header class="top"><a class="back" href="profil.html" aria-label="Retour au profil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a><div><div class="brand">HASHCRYPTO</div><div class="heading">Informations personnelles</div></div></header>
+<section class="hero">
+  <div class="deco l" aria-hidden="true"><svg viewBox="0 0 130 110"><g fill="none" stroke="#67baff" stroke-width="2.6" stroke-linejoin="round"><polygon points="40,10 62,23 62,49 40,62 18,49 18,23"/><polygon points="84,34 106,47 106,73 84,86 62,73 62,47" opacity=".7"/></g></svg></div>
+  <div class="deco r" aria-hidden="true"><svg viewBox="0 0 130 100"><path d="M4 84 L34 62 L58 72 L88 40 L126 16" fill="none" stroke="#00e0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M106 14h20v20" fill="none" stroke="#00e0b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="avatar-ring"><div class="avatar" id="avatar">H</div></div>
+  <div class="pseudo" id="heroPseudo">Chargement du profil…</div>
+  <div class="subtitle">Informations du compte connecté</div>
+</section>
+<div class="notice" id="notice" role="status"></div>
+<section class="card"><h2>Mon compte</h2>
+  <div class="row"><div class="ricon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div class="rbody"><div class="label">Pseudo</div><div class="value" id="pseudo">—</div></div></div>
+  <div class="row"><div class="ricon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 7.5 12 13l8.5-5.5"/></svg></div><div class="rbody"><div class="label">Adresse e-mail</div><div class="value" id="email">—</div></div></div>
+  <div class="row"><div class="ricon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></div><div class="rbody"><div class="label">Date d’inscription</div><div class="value" id="createdAt">—</div></div></div>
+</section>
+<section class="card"><h2>Mon parrainage</h2>
+  <div class="label" style="margin-top:8px">Code de parrainage personnel</div>
+  <div class="refbox"><div class="code" id="referralCode">—</div><button type="button" id="copyCode"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>Copier</button></div>
+  <p class="note">Partagez ce code avec les personnes que vous invitez sur HASHCRYPTO.</p>
+</section>
+<section class="card"><h2>Sécurité du compte</h2>
+  <p class="note" style="margin-top:8px">Pour modifier votre mot de passe, ouvrez la page de sécurité du compte.</p>
+  <a class="action" href="securite.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Gérer mon mot de passe</a>
+</section>
+<p class="foot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span>Ces informations sont chargées depuis votre compte HASHCRYPTO. Pour votre sécurité, le mot de passe n’est jamais affiché ici.</span></p>
+</main>
+<script>
+(()=>{const C={btc:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',eth:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',usdt:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',hash:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'};
+const L=[['btc',84,'88%','6%',22,0,0],['eth',60,'4%','18%',24,-4,0],['usdt',66,'90%','48%',20,-2,1],['hash',54,'3%','58%',25,-6,1],['btc',100,'80%','80%',28,-9,1],['eth',48,'46%','90%',23,-3,1],['usdt',44,'55%','4%',26,-1,1]];
+const w=document.getElementById('bgcoins');
+L.forEach(([k,sz,l,t,d,dl,b],i)=>{const e=document.createElement('span');e.className='bgcoin'+(b?' blur':'');e.style.cssText=`width:${sz}px;height:${sz}px;left:${l};top:${t};--d:${d}s;--delay:${dl}s;--dx:${(i%2?-1:1)*(12+i*3)}px;--dy:${-20-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;e.innerHTML=C[k].replace(/id="(g[A-Z])"/g,`id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g,`url(#$1${i})`);w.appendChild(e)});
+})();
+</script>
+<script>
+(()=>{"use strict";
+const SUPABASE_URL="https://dcpgsrcrwnkcznykehgt.supabase.co";
+const SUPABASE_KEY="sb_publishable_lvsyA42Io4OpS1YvCFGk0Q_qkx1DL47";
+const FUNCTION_URL=SUPABASE_URL+"/functions/v1/hashcoin-account";
+const $=id=>document.getElementById(id);
+const token=localStorage.getItem("hashcoin_token")||sessionStorage.getItem("hashcoin_token")||"";
+function show(message,type="error"){const el=$("notice");el.textContent=message;el.className="notice show "+type}
+function fmtDate(v){if(!v)return"Non disponible";const d=new Date(v);if(Number.isNaN(d.getTime()))return"Non disponible";return new Intl.DateTimeFormat("fr-FR",{day:"2-digit",month:"long",year:"numeric"}).format(d)}
+async function loadProfile(){
+if(!token){show("Votre session est absente. Connectez-vous à HASHCRYPTO pour consulter vos informations.");$("heroPseudo").textContent="Session non connectée";return}
+try{const r=await fetch(FUNCTION_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+token},body:JSON.stringify({action:"profile",token})});const data=await r.json().catch(()=>({}));
+if(!r.ok||!data.profile){if(r.status===401){show(data.error||"Session expirée. Reconnectez-vous.");$("heroPseudo").textContent="Session expirée"}else show(data.error||"Impossible de charger les informations du compte.");return}
+const p=data.profile;$("heroPseudo").textContent=p.pseudo||"Utilisateur HASHCRYPTO";$("avatar").textContent=(p.pseudo||"H").slice(0,1).toUpperCase();$("pseudo").textContent=p.pseudo||"Non renseigné";$("email").textContent=p.email||"Non renseignée";$("createdAt").textContent=fmtDate(p.created_at);$("referralCode").textContent=p.referral_code||"Non disponible";$("copyCode").disabled=!p.referral_code
+}catch(e){show("Connexion impossible. Vérifiez votre connexion Internet puis réessayez.");$("heroPseudo").textContent="Profil indisponible"}}
+$("copyCode").addEventListener("click",async()=>{const code=$("referralCode").textContent.trim();if(!code||code==="—"||code==="Non disponible")return;try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(code);else{const t=document.createElement("textarea");t.value=code;t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();const ok=document.execCommand("copy");t.remove();if(!ok)throw Error("copy failed")}show("Code de parrainage copié.","ok")}catch(e){show("La copie automatique a échoué. Sélectionnez le code pour le copier.")}});
+loadProfile()})();
+</script></body></html>

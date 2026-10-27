@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06111f"><title>Sécurité — HASHCRYPTO</title>
+<style>
+:root{color-scheme:dark;--bg:#06111f;--line:#1b405b;--text:#f4f8ff;--muted:#92abc4;--teal:#00e0b5}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
+svg{display:block}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#0f3a4d 0,transparent 42%),radial-gradient(ellipse at 95% 95%,#1a2c64 0,transparent 42%),radial-gradient(ellipse at 85% 12%,#3a2a0f44 0,transparent 35%),var(--bg)}
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.2;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#00e0b50d 1px,transparent 1px),linear-gradient(90deg,#00e0b50d 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:36vh;opacity:.4}
+.bgcoin{position:absolute;display:block;opacity:.5;animation:bgfloat var(--d,20s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 10px 24px #0008)}
+.bgcoin svg{width:100%;height:100%}
+.bgcoin.blur{filter:blur(4px);opacity:.3}
+@keyframes bgfloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-30px),0) rotate(var(--r1,10deg))}}
+@media(prefers-reduced-motion:reduce){.bgcoin{animation:none}}
+main{position:relative;z-index:1;max-width:520px;margin:auto;padding:20px 16px 44px}
+header{display:flex;align-items:center;gap:13px;margin:4px 0 22px}
+.back{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;background:#0b1b2ee8;backdrop-filter:blur(10px)}
+.back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand{font-size:15px;font-weight:900;letter-spacing:3px}.brand span{color:var(--teal)}
+h1{font-size:22px;margin:3px 0 0;font-weight:800;letter-spacing:-.4px}
+.panel{position:relative;overflow:hidden;background:linear-gradient(145deg,#0b2037e8,#081728e8);border:1px solid var(--line);border-radius:24px;padding:20px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.panel>*:not(.deco){position:relative;z-index:1}
+.deco{position:absolute;right:-6px;top:-4px;width:120px;height:110px;opacity:.18;pointer-events:none}.deco svg{width:100%;height:100%}
+.intro{display:flex;gap:13px;align-items:flex-start;margin-bottom:6px}
+.lock{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;color:var(--teal);border:1px solid #1f5a78;background:linear-gradient(145deg,#12324c,#0b2237)}
+.lock svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+h2{font-size:16px;margin:0 0 6px}.hint{color:var(--muted);font-size:13px;line-height:1.5;margin:0}
+label{display:block;font-size:13px;font-weight:650;margin:16px 0 7px;color:#dce5f0}
+.field{position:relative}
+.fi{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#5f89a6;pointer-events:none}.fi svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+input{width:100%;height:50px;padding:0 52px 0 44px;border:1.5px solid #24465f;background:linear-gradient(180deg,#0a1a2d,#071321);color:var(--text);border-radius:16px;font:inherit;outline:none}
+input:focus{border-color:var(--teal);box-shadow:0 0 0 3px #00e0b51f}
+.toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;border-radius:12px;padding:0}
+.toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.toggle .slash{opacity:0}.toggle.on .slash{opacity:1}.toggle.on{color:var(--teal)}
+button.primary{width:100%;height:52px;margin-top:20px;border:0;border-radius:16px;background:linear-gradient(135deg,#00e0b5,#33cfee);color:#05211c;font:inherit;font-weight:850;cursor:pointer;transition:transform .15s}
+button.primary:hover{transform:translateY(-1px)}button:disabled{opacity:.55;cursor:not-allowed}
+.message{display:none;margin-top:14px;padding:12px 14px;border-radius:14px;font-size:13px;line-height:1.5}
+.message.show{display:block}.message.error{background:#3b1c27;color:#ffd0d0;border:1px solid #713244}.message.ok{background:#12382e;color:#c5ffe1;border:1px solid #246c52}
+.note{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.55}
+</style></head><body>
+<div class="bg" aria-hidden="true"><div class="bg-photo" style="--bg-photo:none"></div><div class="bg-grid"></div>
+<svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient></defs><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#00e0b5" stroke-width="2.5" stroke-linejoin="round"/></svg>
+<div id="bgcoins"></div></div>
+<main>
+<header><a class="back" href="profil.html" aria-label="Retour au profil"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a><div><div class="brand">HASH<span>CRYPTO</span></div><h1>Sécurité</h1></div></header>
+<section class="panel">
+<div class="deco" aria-hidden="true"><svg viewBox="0 0 120 110"><g fill="none" stroke="#00e0b5" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M60 8l42 16v28c0 28-18 46-42 52C36 98 18 80 18 52V24z"/><path d="M42 54l13 13 24-26"/></g></svg></div>
+<div class="intro"><div class="lock"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
+<div><h2>Changer le mot de passe</h2><p class="hint">Saisissez votre mot de passe actuel, puis choisissez un nouveau mot de passe sécurisé.</p></div></div>
+<form id="passwordForm" autocomplete="on">
+<label for="current">Mot de passe actuel</label>
+<div class="field"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><input id="current" name="current_password" type="password" autocomplete="current-password"  required><button class="toggle" type="button" data-for="current" aria-label="Afficher le mot de passe"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>
+<label for="new">Nouveau mot de passe</label>
+<div class="field"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><input id="new" name="new_password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required><button class="toggle" type="button" data-for="new" aria-label="Afficher le mot de passe"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>
+<label for="confirm">Confirmer le nouveau mot de passe</label>
+<div class="field"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><input id="confirm" name="confirm_password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required><button class="toggle" type="button" data-for="confirm" aria-label="Afficher le mot de passe"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg></button></div>
+<p class="note">Le nouveau mot de passe doit contenir au moins 8 caractères. Après modification, toutes les sessions HASHCRYPTO seront fermées et vous devrez vous reconnecter.</p>
+<button class="primary" id="submit" type="submit">Modifier le mot de passe</button>
+<div class="message" id="message" role="status" aria-live="polite"></div>
+</form></section></main>
+<script>
+(()=>{const C={btc:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',eth:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',usdt:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',hash:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'};
+const L=[['btc',84,'88%','6%',22,0,0],['eth',60,'4%','18%',24,-4,0],['usdt',66,'90%','48%',20,-2,1],['hash',54,'3%','58%',25,-6,1],['btc',100,'80%','80%',28,-9,1],['eth',48,'46%','90%',23,-3,1],['usdt',44,'55%','4%',26,-1,1]];
+const w=document.getElementById('bgcoins');
+L.forEach(([k,sz,l,t,d,dl,b],i)=>{const e=document.createElement('span');e.className='bgcoin'+(b?' blur':'');e.style.cssText=`width:${sz}px;height:${sz}px;left:${l};top:${t};--d:${d}s;--delay:${dl}s;--dx:${(i%2?-1:1)*(12+i*3)}px;--dy:${-20-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;e.innerHTML=C[k].replace(/id="(g[A-Z])"/g,`id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g,`url(#$1${i})`);w.appendChild(e)});
+})();
+</script>
+<script>
+const SUPABASE_URL="https://dcpgsrcrwnkcznykehgt.supabase.co";
+const SUPABASE_KEY="sb_publishable_lvsyA42Io4OpS1YvCFGk0Q_qkx1DL47";
+const form=document.getElementById("passwordForm"),button=document.getElementById("submit"),msg=document.getElementById("message");
+function showMessage(text,type){msg.textContent=text;msg.className="message show "+type}
+document.querySelectorAll(".toggle").forEach(b=>b.addEventListener("click",()=>{const el=document.getElementById(b.dataset.for);const show=el.type==="password";el.type=show?"text":"password";b.classList.toggle("on",!show);b.setAttribute("aria-label",show?"Masquer le mot de passe":"Afficher le mot de passe")}));
+form.addEventListener("submit",async e=>{
+ e.preventDefault();msg.className="message";
+ const current=document.getElementById("current").value,newPassword=document.getElementById("new").value,confirm=document.getElementById("confirm").value;
+ if(newPassword.length<8){showMessage("Le nouveau mot de passe doit contenir au moins 8 caractères.","error");return}
+ if(newPassword!==confirm){showMessage("Les nouveaux mots de passe ne correspondent pas.","error");return}
+ if(current===newPassword){showMessage("Le nouveau mot de passe doit être différent de l’ancien.","error");return}
+ const token=localStorage.getItem("hashcoin_token")||sessionStorage.getItem("hashcoin_token");
+ if(!token){showMessage("Session absente. Reconnectez-vous à HASHCRYPTO.","error");return}
+ button.disabled=true;button.textContent="Modification en cours…";
+ try{
+  const res=await fetch(SUPABASE_URL+"/functions/v1/hashcoin-account",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+token},body:JSON.stringify({action:"change_password",token,current_password:current,new_password:newPassword,confirm_password:confirm})});
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok)throw new Error(data.error||"La modification a échoué.");
+  localStorage.removeItem("hashcoin_token");sessionStorage.removeItem("hashcoin_token");form.reset();
+  showMessage(data.message||"Mot de passe modifié. Reconnectez-vous.","ok");
+  setTimeout(()=>location.href="connexion.html",1800);
+ }catch(err){showMessage(err.message||"Erreur réseau. Réessayez.","error")}
+ finally{button.disabled=false;button.textContent="Modifier le mot de passe"}
+});
+</script></body></html>
