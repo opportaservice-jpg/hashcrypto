@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06111f"><title>Dépôt — HASHCRYPTO</title>
+<style>
+:root{color-scheme:dark;--bg:#06111f;--line:#1b405b;--text:#f4f8ff;--muted:#92abc4;--teal:#00e0b5}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
+svg{display:block}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#0f3a4d 0,transparent 42%),radial-gradient(ellipse at 95% 95%,#1a2c64 0,transparent 42%),radial-gradient(ellipse at 85% 12%,#3a2a0f44 0,transparent 35%),var(--bg)}
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.2;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#00e0b50d 1px,transparent 1px),linear-gradient(90deg,#00e0b50d 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:36vh;opacity:.4}
+.bgcoin{position:absolute;display:block;opacity:.5;animation:bgfloat var(--d,20s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 10px 24px #0008)}
+.bgcoin svg{width:100%;height:100%}
+.bgcoin.blur{filter:blur(4px);opacity:.3}
+@keyframes bgfloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-30px),0) rotate(var(--r1,10deg))}}
+@media(prefers-reduced-motion:reduce){.bgcoin{animation:none}}
+
+.wrap{position:relative;z-index:1;width:min(100% - 28px,520px);margin:0 auto;padding:22px 0 42px}
+.top{display:flex;align-items:center;gap:13px;margin-bottom:24px}
+.back{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;background:#0b1b2ee8;color:var(--text);text-decoration:none;backdrop-filter:blur(10px);transition:border-color .15s}
+.back:hover{border-color:#00e0b580}
+.back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand{font-size:22px;font-weight:900;letter-spacing:3px;color:var(--text);text-decoration:none}.brand span{color:var(--teal)}
+.tag{font-size:11px;color:var(--muted);letter-spacing:1.6px;text-transform:uppercase;margin-top:3px}
+
+h1{font-size:clamp(26px,7vw,32px);line-height:1.12;margin:0 0 10px;letter-spacing:-.6px}
+.sub{color:var(--muted);margin:0 0 20px;line-height:1.65;font-size:14px}
+
+.card{position:relative;overflow:hidden;background:linear-gradient(145deg,#0b2037e8,#081728e8);border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:0 20px 60px #0005;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.card>*:not(.deco){position:relative;z-index:1}
+.deco{position:absolute;right:-6px;top:-4px;width:150px;height:120px;opacity:.2;pointer-events:none;z-index:0}
+.deco svg{width:100%;height:100%}
+.chead{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.ticon{width:46px;height:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#00e0b5,#33cfee);color:#04231e;box-shadow:0 0 28px #00e0b538}
+.ticon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.card h2{font-size:18px;margin:0}
+.hint{color:var(--muted);font-size:13px;margin:0 0 18px;line-height:1.5}
+
+label{display:block;font-size:13px;font-weight:700;color:#dce6f7;margin:18px 0 8px}
+.amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 0 4px}
+.amount{border:1.5px solid #24506c;border-radius:14px;background:linear-gradient(160deg,#13324c,#0b2236);color:var(--text);padding:12px 4px;font-weight:750;font-size:14px;cursor:pointer;transition:border-color .15s,transform .15s,color .15s}
+.amount:hover{border-color:#00e0b580;transform:translateY(-1px)}
+.amount.active{border-color:transparent;background:linear-gradient(135deg,#00e0b5,#33cfee);color:#04231e;box-shadow:0 6px 18px #00e0b52e}
+.field{display:flex;align-items:center;gap:12px;height:52px;border:1.5px solid #2b4058;background:linear-gradient(180deg,#0a1a2d,#071321);border-radius:16px;padding:0 16px;box-shadow:inset 0 2px 6px #0006;transition:border-color .18s,box-shadow .18s,background .18s}
+.field:hover{border-color:#3a5675}
+.field:focus-within{border-color:var(--teal);box-shadow:0 0 0 4px #00e0b51f,inset 0 2px 6px #0006;background:#08182a}
+.currency{font-size:12px;font-weight:850;color:var(--teal);border-right:1px solid #24506c;padding-right:12px;letter-spacing:.5px}
+input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--text);font:inherit;font-size:16px;padding:0;height:100%}
+input::placeholder{color:#60718b}
+.note{display:flex;gap:10px;margin-top:20px;padding:13px 14px;border-radius:16px;background:#0a1c29d9;border:1px solid #1d3c50;color:#b8ccda;font-size:12px;line-height:1.6}
+.note svg{width:17px;height:17px;flex:0 0 17px;margin-top:2px;fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+button.submit{width:100%;height:54px;margin-top:20px;border:0;border-radius:16px;background:linear-gradient(100deg,#00e0b5,#33cfee);color:#04231e;font:850 16px Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 26px #00e0b533;transition:transform .15s,opacity .15s}
+button.submit:hover{transform:translateY(-1px)}
+button.submit:disabled{opacity:.55;cursor:wait;transform:none}
+.status{display:none;margin-top:14px;padding:13px 14px;border-radius:14px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.status.show{display:block}
+.status.error{background:#3b1c27;color:#ffd0d0;border:1px solid #713244}
+.status.success{background:#12382e;color:#c5ffe1;border:1px solid #246c52}
+.footer{text-align:center;color:#6e899b;font-size:11px;margin:20px 0 0}
+@media(max-width:360px){.card{padding:16px}.amounts{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body>
+<div class="bg" aria-hidden="true"><div class="bg-photo" style="--bg-photo:none"></div><div class="bg-grid"></div>
+<svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient></defs><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#00e0b5" stroke-width="2.5" stroke-linejoin="round"/></svg>
+<div id="bgcoins"></div></div>
+
+<main class="wrap">
+<header class="top">
+  <a class="back" href="dashboard.html" aria-label="Retour"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
+  <div><a class="brand" href="dashboard.html">HASH<span>CRYPTO</span></a><div class="tag">Dépôt</div></div>
+</header>
+<h1>Recharger mon compte</h1>
+<p class="sub">Indique le montant et le numéro ayant servi au paiement. Après confirmation, tu seras redirigé vers WestPay pour effectuer le paiement.</p>
+<section class="card">
+  <div class="deco" aria-hidden="true"><svg viewBox="0 0 150 120"><g fill="none" stroke="#00e0b5" stroke-width="2.6" stroke-linejoin="round"><polygon points="50,10 72,23 72,49 50,62 28,49 28,23"/><polygon points="100,38 122,51 122,77 100,90 78,77 78,51" opacity=".7"/></g><path d="M8 108 L36 88 L60 98 L92 66 L140 40" fill="none" stroke="#67baff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/></svg></div>
+  <div class="chead"><div class="ticon"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg></div><h2>Informations du dépôt</h2></div>
+  <div class="hint">La demande sera d’abord enregistrée en attente de vérification.</div>
+  <div class="amounts" id="quickAmounts">
+    <button type="button" class="amount" data-amount="5000">5 000</button><button type="button" class="amount" data-amount="10000">10 000</button><button type="button" class="amount" data-amount="20000">20 000</button><button type="button" class="amount" data-amount="50000">50 000</button><button type="button" class="amount" data-amount="100000">100 000</button><button type="button" class="amount" data-amount="200000">200 000</button>
+  </div>
+  <form id="depositForm">
+    <label for="amount">Montant du dépôt</label>
+    <div class="field"><span class="currency">XOF</span><input id="amount" name="amount" type="number" inputmode="numeric" min="5000" step="1" placeholder="Ex. 5000" required></div>
+    <label for="payerPhone">Numéro utilisé pour effectuer le paiement</label>
+    <div class="field"><input id="payerPhone" name="payer_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ex. 70123456" maxlength="30" required></div>
+    <div class="note"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span>Confirme la demande, puis effectue le paiement sur WestPay. Le solde HASHCRYPTO ne sera crédité qu’après validation par l’administrateur. N’effectue pas plusieurs demandes pour le même paiement.</span></div>
+    <button class="submit" id="submitButton" type="submit">Confirmer et payer</button>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </form>
+</section>
+<p class="footer">HASHCRYPTO · Les dépôts sont vérifiés avant crédit du solde.</p>
+</main>
+<script>
+(()=>{const C={btc:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',eth:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',usdt:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',hash:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'};
+const L=[['btc',84,'88%','6%',22,0,0],['eth',60,'4%','18%',24,-4,0],['usdt',66,'90%','48%',20,-2,1],['hash',54,'3%','58%',25,-6,1],['btc',100,'80%','80%',28,-9,1],['eth',48,'46%','90%',23,-3,1],['usdt',44,'55%','4%',26,-1,1]];
+const w=document.getElementById('bgcoins');
+L.forEach(([k,sz,l,t,d,dl,b],i)=>{const e=document.createElement('span');e.className='bgcoin'+(b?' blur':'');e.style.cssText=`width:${sz}px;height:${sz}px;left:${l};top:${t};--d:${d}s;--delay:${dl}s;--dx:${(i%2?-1:1)*(12+i*3)}px;--dy:${-20-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;e.innerHTML=C[k].replace(/id="(g[A-Z])"/g,`id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g,`url(#$1${i})`);w.appendChild(e)});
+})();
+</script>
+<script>
+'use strict';
+(() => {
+ const API='https://dcpgsrcrwnkcznykehgt.supabase.co/functions/v1/hashcoin-deposits';
+ const WESTPAY_URL='https://link.westpay.cfd/link/ywho8wfomvr3sp2c';
+ const MIN_DEPOSIT=5000, $=id=>document.getElementById(id);
+ const token=()=>localStorage.getItem('hashcoin_token')||sessionStorage.getItem('hashcoin_token')||'';
+ function showStatus(message,kind){const el=$('status');el.textContent=message;el.className='status show '+(kind||'');}
+ document.querySelectorAll('[data-amount]').forEach(b=>b.addEventListener('click',()=>{$('amount').value=b.dataset.amount;document.querySelectorAll('[data-amount]').forEach(x=>x.classList.toggle('active',x===b));}));
+ $('amount').addEventListener('input',()=>document.querySelectorAll('[data-amount]').forEach(b=>b.classList.toggle('active',Number(b.dataset.amount)===Number($('amount').value))));
+ $('depositForm').addEventListener('submit',async event=>{
+  event.preventDefault();const button=$('submitButton');if(button.disabled)return;
+  const session=token();if(!session){showStatus('Ta session est absente ou expirée. Connecte-toi à HASHCRYPTO puis réessaie.','error');return;}
+  const amount=Number($('amount').value),payerPhone=$('payerPhone').value.trim();
+  if(!Number.isSafeInteger(amount)||amount<MIN_DEPOSIT){showStatus('Le montant minimum du dépôt est de 5 000 XOF.','error');$('amount').focus();return;}
+  if(payerPhone.length<5||payerPhone.length>30||payerPhone.replace(/\D/g,'').length<8){showStatus('Saisis un numéro de téléphone valide, utilisé pour effectuer le paiement.','error');$('payerPhone').focus();return;}
+  button.disabled=true;button.textContent='Enregistrement de la demande…';
+  try{
+   const response=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session},body:JSON.stringify({action:'create',token:session,amount,payer_phone:payerPhone})});
+   const data=await response.json().catch(()=>({}));
+   if(!response.ok)throw new Error(data.error||'Impossible d’enregistrer la demande de dépôt.');
+   if(!data.deposit)throw new Error('Le serveur n’a pas confirmé la demande. Aucun paiement n’a été ouvert.');
+   button.textContent='Demande enregistrée…';showStatus('Demande enregistrée. Redirection vers WestPay…','success');window.location.assign(WESTPAY_URL);
+  }catch(error){showStatus(error.message||'Une erreur est survenue. Réessaie.','error');button.disabled=false;button.textContent='Confirmer et payer';}
+ });
+})();
+</script></body></html>
