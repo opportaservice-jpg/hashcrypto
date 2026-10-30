@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06111f"><title>Dépôt — HASHCRYPTO</title>
+<style>
+:root{color-scheme:dark;--bg:#06111f;--line:#1b405b;--text:#f5f9ff;--muted:#92abc4;--teal:#00e0b5;--danger:#ff9fb0;--success:#4ef2c9}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh;position:relative;overflow-x:hidden;padding:20px 16px 40px}
+svg{display:block}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#0f3a4d 0,transparent 42%),radial-gradient(ellipse at 95% 95%,#1a2c64 0,transparent 42%),radial-gradient(ellipse at 85% 12%,#3a2a0f44 0,transparent 35%),var(--bg)}
+.bg-photo{position:absolute;inset:0;background-image:var(--bg-photo,none);background-size:cover;background-position:center;opacity:.2;mix-blend-mode:screen}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(#00e0b50d 1px,transparent 1px),linear-gradient(90deg,#00e0b50d 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 85%)}
+.bg-chart{position:absolute;left:0;right:0;bottom:0;width:100%;height:36vh;opacity:.4}
+.bgcoin{position:absolute;display:block;opacity:.5;animation:bgfloat var(--d,20s) ease-in-out infinite;animation-delay:var(--delay,0s);filter:drop-shadow(0 10px 24px #0008)}
+.bgcoin svg{width:100%;height:100%}
+.bgcoin.blur{filter:blur(4px);opacity:.3}
+@keyframes bgfloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,-8deg))}50%{transform:translate3d(var(--dx,20px),var(--dy,-30px),0) rotate(var(--r1,10deg))}}
+@media(prefers-reduced-motion:reduce){.bgcoin{animation:none}}
+.container{position:relative;z-index:1;max-width:490px;margin:auto}
+.top{display:flex;align-items:center;gap:13px;margin:4px 0 22px}
+.back{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;color:var(--text);text-decoration:none;background:#0b1b2ee8;backdrop-filter:blur(10px)}
+.back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand{font-size:15px;font-weight:900;letter-spacing:3px}.brand span{color:var(--teal)}
+h1{font-size:22px;margin:3px 0 0;font-weight:800;letter-spacing:-.4px}
+.subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+.card{position:relative;overflow:hidden;background:linear-gradient(145deg,#0b2037e8,#081728e8);border:1px solid var(--line);border-radius:24px;padding:22px 20px;margin-bottom:15px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.card>*:not(.deco){position:relative;z-index:1}
+.deco{position:absolute;right:-8px;top:-6px;width:130px;height:110px;opacity:.2;pointer-events:none}.deco svg{width:100%;height:100%}
+.section-title{font-size:12px;font-weight:700;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+label{display:block;font-size:13px;font-weight:650;color:#dce5f0;margin:16px 0 8px}
+.f{position:relative}
+.fi{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#5f89a6;pointer-events:none}.fi svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+input,select{width:100%;height:50px;padding:0 16px 0 44px;background:linear-gradient(180deg,#0a1a2d,#071321);color:var(--text);border:1.5px solid #24465f;border-radius:16px;font:inherit;font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s}
+select{appearance:none;-webkit-appearance:none;padding-right:42px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2392abc4' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"),linear-gradient(180deg,#0a1a2d,#071321);background-repeat:no-repeat;background-position:right 15px center,0 0}
+select option{background:#0a1a2d;color:var(--text)}
+input:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px #00e0b51f}
+input::placeholder{color:#5f7a94}
+input:disabled,select:disabled{opacity:.6}
+.info{padding:14px 15px;background:#061525cc;border:1px solid #24536d;border-radius:18px;color:#d4dfec;font-size:13px;line-height:1.65;margin-top:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.minimum{color:var(--muted);font-size:12px;margin-top:8px}
+button{width:100%;height:52px;border:0;border-radius:16px;margin-top:22px;background:linear-gradient(135deg,#00e0b5,#33cfee);color:#05211c;font:inherit;font-weight:850;font-size:15px;cursor:pointer;transition:transform .15s}
+button:hover:not(:disabled){transform:translateY(-1px)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.status{font-size:13px;line-height:1.5;margin-top:14px}
+.error{color:var(--danger)}.success{color:var(--success)}
+.hidden{display:none!important}
+.loader{width:19px;height:19px;border:2px solid #05211c40;border-top-color:#05211c;border-radius:50%;display:inline-block;vertical-align:middle;animation:spin .7s linear infinite;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.footer{display:flex;justify-content:center;align-items:center;gap:7px;color:#7f95aa;font-size:12px;margin:22px 0 0}
+.footer svg{width:14px;height:14px;fill:none;stroke:var(--teal);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style></head><body>
+<div class="bg" aria-hidden="true"><div class="bg-photo" style="--bg-photo:none"></div><div class="bg-grid"></div>
+<svg class="bg-chart" viewBox="0 0 1200 300" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00e0b5" stop-opacity=".35"/><stop offset="1" stop-color="#00e0b5" stop-opacity="0"/></linearGradient></defs><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20 L1200 300 L0 300Z" fill="url(#area)"/><path d="M0 240 L80 215 L150 228 L230 170 L300 190 L380 120 L450 150 L530 95 L610 125 L690 70 L770 100 L850 55 L930 85 L1010 40 L1100 60 L1200 20" fill="none" stroke="#00e0b5" stroke-width="2.5" stroke-linejoin="round"/></svg>
+<div id="bgcoins"></div></div>
+<div class="container">
+  <header class="top"><a class="back" href="dashboard.html" aria-label="Retour"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a><div><div class="brand">HASH<span>CRYPTO</span></div><h1>Effectuer un dépôt</h1><div class="subtitle">Alimentez votre portefeuille HASHCRYPTO</div></div></header>
+  <div class="card">
+    <div class="deco" aria-hidden="true"><svg viewBox="0 0 130 110"><g fill="none" stroke="#00e0b5" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="64" cy="52" r="34"/><path d="M64 34v36M52 56l12 12 12-12"/><path d="M30 98h68" opacity=".6"/></g></svg></div>
+    <div class="section-title">Informations du dépôt</div>
+
+    <label for="country">Pays</label>
+    <div class="f"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><select id="country" disabled><option value="">Chargement des pays...</option></select></div>
+
+    <label for="amount">Montant du dépôt</label>
+    <div class="f"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><circle cx="12" cy="12" r="2.6"/></svg></span><input id="amount" type="number" min="1" step="1" placeholder="Saisissez le montant" disabled></div>
+    <div class="minimum" id="minimum"></div>
+
+    <label for="phone">Numéro du payeur</label>
+    <div class="f"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg></span><input id="phone" type="tel" placeholder="Numéro utilisé pour le paiement" disabled></div>
+
+    <div id="methodArea" class="hidden">
+      <label for="method">Moyen de paiement</label>
+      <div class="f"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h4"/></svg></span><select id="method" disabled></select></div>
+    </div>
+
+    <div id="paymentInfo" class="info hidden"></div>
+
+    <div id="receiptArea" class="hidden">
+      <label for="receipt">Code du reçu de paiement</label>
+      <div class="f"><span class="fi"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><input id="receipt" type="text" placeholder="Saisissez le code du reçu"></div>
+    </div>
+
+    <button id="submit" disabled>Continuer</button>
+    <div id="status" class="status"></div>
+  </div>
+  <div class="footer"><svg class="" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>HASHCRYPTO · Paiements sécurisés</div>
+</div>
+<script>
+"use strict";
+
+const API = "https://dcpgsrcrwnkcznykehgt.supabase.co/functions/v1/hashcoin-deposits";
+
+const state = {
+  countries: [],
+  methods: [],
+  minimum: null,
+  ready: false
+};
+
+const el = id => document.getElementById(id);
+
+function showStatus(message, type = "") {
+  el("status").className = "status " + type;
+  el("status").textContent = message;
+}
+
+function getToken() {
+  return localStorage.getItem("hashcoin_token") ||
+         sessionStorage.getItem("hashcoin_token") || "";
+}
+
+async function api(payload) {
+  const response = await fetch(API, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(payload)
+  });
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(result.error || "Une erreur est survenue.");
+  }
+  return result;
+}
+
+function selectedCountry() {
+  return state.countries.find(
+    c => c.country_code === el("country").value
+  );
+}
+
+function countryMethods() {
+  const country = selectedCountry();
+  if (!country) return [];
+
+  return state.methods.filter(
+    m => m.country_code === country.country_code
+  );
+}
+
+function selectedMethod() {
+  const methods = countryMethods();
+  return methods.find(m => m.id === el("method").value) || methods[0] || null;
+}
+
+function formatAmount(value) {
+  return Number(value).toLocaleString("fr-FR");
+}
+
+function refreshPaymentDisplay() {
+  const methods = countryMethods();
+  const area = el("paymentInfo");
+  const receiptArea = el("receiptArea");
+  const methodArea = el("methodArea");
+
+  area.classList.add("hidden");
+  receiptArea.classList.add("hidden");
+  methodArea.classList.add("hidden");
+
+  if (!methods.length) {
+    area.textContent = "Aucune méthode de dépôt n'est actuellement disponible pour ce pays.";
+    area.classList.remove("hidden");
+    el("submit").disabled = true;
+    return;
+  }
+
+  if (methods.length > 1) {
+    methodArea.classList.remove("hidden");
+  }
+
+  const method = selectedMethod();
+  if (!method) {
+    el("submit").disabled = true;
+    return;
+  }
+
+  let content = "";
+
+  if (method.method_name) {
+    content += "Moyen de paiement : " + method.method_name + "\n";
+  }
+
+  if (method.instructions) {
+    content += method.instructions + "\n";
+  }
+
+  if (method.recipient_number) {
+    content += "Numéro destinataire : " + method.recipient_number + "\n";
+  }
+
+  const amount = el("amount").value;
+  if (method.ussd_template && amount) {
+    const ussd = method.ussd_template.replace(
+      /\{amount\}/gi, amount
+    );
+    content += "\nCode à composer : " + ussd;
+  }
+
+  if (method.receipt_required) {
+    receiptArea.classList.remove("hidden");
+  }
+
+  if (method.redirect_url) {
+    content += "\nVous serez redirigé vers la page de paiement après l'enregistrement de votre demande.";
+  }
+
+  area.textContent = content || "Suivez les instructions de paiement.";
+  area.classList.remove("hidden");
+
+  updateSubmitState();
+}
+
+function updateSubmitState() {
+  const country = selectedCountry();
+  const method = selectedMethod();
+  const amount = Number(el("amount").value);
+  const phone = el("phone").value.trim();
+  const receipt = el("receipt").value.trim();
+
+  const validAmount =
+    Number.isInteger(amount) &&
+    amount > 0 &&
+    state.minimum !== null &&
+    amount >= Number(state.minimum);
+
+  const validReceipt =
+    !method?.receipt_required || receipt.length > 0;
+
+  el("submit").disabled = !(
+    state.ready &&
+    country &&
+    method &&
+    validAmount &&
+    phone.length > 0 &&
+    validReceipt
+  );
+}
+
+function populateCountries() {
+  const select = el("country");
+  select.innerHTML = "";
+
+  for (const country of state.countries) {
+    const option = document.createElement("option");
+    option.value = country.country_code;
+    option.textContent =
+      country.country_name + " (" + country.currency_code + ")";
+    select.appendChild(option);
+  }
+
+  select.disabled = false;
+  if (state.countries.length) {
+    select.value = state.countries[0].country_code;
+  }
+  populateMethods();
+}
+
+function populateMethods() {
+  const methods = countryMethods();
+  const select = el("method");
+  select.innerHTML = "";
+
+  methods.forEach((method, index) => {
+    const option = document.createElement("option");
+    option.value = method.id || String(index);
+    option.textContent = method.method_name || "Paiement en ligne";
+    select.appendChild(option);
+  });
+
+  select.disabled = methods.length <= 1;
+  refreshPaymentDisplay();
+}
+
+async function loadConfiguration() {
+  showStatus("Chargement de la configuration...");
+  try {
+    const config = await api({action:"config"});
+
+    if (!Array.isArray(config.countries) ||
+        !Array.isArray(config.payment_methods) ||
+        config.settings?.deposit_min == null) {
+      throw new Error("Configuration incomplète. Contactez le support.");
+    }
+
+    state.countries = config.countries;
+    state.methods = config.payment_methods;
+    state.minimum = Number(config.settings.deposit_min);
+
+    if (!Number.isFinite(state.minimum) || state.minimum <= 0) {
+      throw new Error("Le minimum de dépôt configuré est invalide.");
+    }
+
+    if (!state.countries.length) {
+      throw new Error("Aucun pays n'est actuellement éligible.");
+    }
+
+    el("minimum").textContent =
+      "Minimum autorisé : " + formatAmount(state.minimum) + " " + (selectedCountry()?.currency_code || "");
+
+    populateCountries();
+    el("minimum").textContent = "Minimum autorisé : " + formatAmount(state.minimum) + " " + (selectedCountry()?.currency_code || "");
+
+    el("amount").disabled = false;
+    el("phone").disabled = false;
+    state.ready = true;
+
+    showStatus("");
+    updateSubmitState();
+
+  } catch (error) {
+    state.ready = false;
+    showStatus(error.message, "error");
+    el("submit").disabled = true;
+  }
+}
+
+async function createDeposit() {
+  const token = getToken();
+
+  if (!token) {
+    showStatus("Votre session a expiré. Veuillez vous reconnecter.", "error");
+    return;
+  }
+
+  const country = selectedCountry();
+  const method = selectedMethod();
+
+  if (!country || !method) {
+    showStatus("Configuration de paiement indisponible.", "error");
+    return;
+  }
+
+  const amount = Number(el("amount").value);
+  const phone = el("phone").value.trim();
+  const receipt = el("receipt").value.trim();
+
+  if (!Number.isInteger(amount) || amount < state.minimum) {
+    showStatus("Le montant doit respecter le minimum autorisé.", "error");
+    return;
+  }
+
+  if (!phone) {
+    showStatus("Veuillez saisir le numéro du payeur.", "error");
+    return;
+  }
+
+  if (method.receipt_required && !receipt) {
+    showStatus("Le code du reçu est obligatoire.", "error");
+    return;
+  }
+
+  el("submit").disabled = true;
+  el("submit").innerHTML = '<span class="loader"></span>Traitement...';
+  showStatus("Enregistrement de votre demande...");
+
+  try {
+    const result = await api({
+      action: "create",
+      token,
+      amount,
+      payer_phone: phone,
+      country_code: country.country_code,
+      payment_method: method.method_name || null,
+      receipt_code: method.receipt_required ? receipt : null
+    });
+
+    showStatus(
+      result.message || "Demande de dépôt enregistrée.",
+      "success"
+    );
+
+    if (method.redirect_url) {
+      let url;
+      try {
+        url = new URL(method.redirect_url);
+      } catch {
+        throw new Error("Le lien de paiement configuré est invalide.");
+      }
+
+      if (url.protocol !== "https:") {
+        throw new Error("Le lien de paiement doit utiliser HTTPS.");
+      }
+
+      showStatus("Demande enregistrée. Redirection vers le paiement...", "success");
+      window.location.assign(url.href);
+      return;
+    }
+
+    el("amount").value = "";
+    el("phone").value = "";
+    el("receipt").value = "";
+    updateSubmitState();
+
+  } catch (error) {
+    showStatus(error.message, "error");
+  } finally {
+    el("submit").textContent = "Continuer";
+    updateSubmitState();
+  }
+}
+
+el("country").addEventListener("change", () => {
+  if (state.minimum !== null) {
+    el("minimum").textContent = "Minimum autorisé : " + formatAmount(state.minimum) + " " + (selectedCountry()?.currency_code || "");
+  }
+  populateMethods();
+});
+el("method").addEventListener("change", refreshPaymentDisplay);
+el("amount").addEventListener("input", () => {
+  refreshPaymentDisplay();
+  updateSubmitState();
+});
+el("phone").addEventListener("input", updateSubmitState);
+el("receipt").addEventListener("input", updateSubmitState);
+el("submit").addEventListener("click", createDeposit);
+
+loadConfiguration();
+</script>
+<script>
+(()=>{const C={btc:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gB" cx="35%" cy="30%"><stop offset="0" stop-color="#ffe09a"/><stop offset="1" stop-color="#e59a1f"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gB)" stroke="#ffd37a" stroke-width="3"/><text x="50" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="50" fill="#fff8e6">₿</text></svg>',eth:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gE" cx="35%" cy="30%"><stop offset="0" stop-color="#b9c6ff"/><stop offset="1" stop-color="#5b6bd6"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gE)" stroke="#c9d3ff" stroke-width="3"/><path d="M50 18L30 52l20 12 20-12z" fill="#fff" fill-opacity=".9"/><path d="M50 68L30 56l20 28 20-28z" fill="#fff" fill-opacity=".7"/></svg>',usdt:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gU" cx="35%" cy="30%"><stop offset="0" stop-color="#6fe0b8"/><stop offset="1" stop-color="#16876a"/></radialGradient></defs><circle cx="50" cy="50" r="47" fill="url(#gU)" stroke="#8ff0cf" stroke-width="3"/><path d="M28 30h44v10H55v8c14 1 24 4 24 8s-10 7-24 8v16H45V64c-14-1-24-4-24-8s10-7 24-8v-8H28z" fill="#fff"/></svg>',hash:'<svg viewBox="0 0 100 100"><defs><radialGradient id="gH" cx="35%" cy="30%"><stop offset="0" stop-color="#8af0cf"/><stop offset="1" stop-color="#2a7bd6"/></radialGradient></defs><polygon points="50,5 90,27 90,73 50,95 10,73 10,27" fill="url(#gH)" stroke="#bfeeff" stroke-width="3"/><text x="50" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="42" fill="#fff">#</text></svg>'};
+const L=[['btc',84,'88%','6%',22,0,0],['eth',60,'4%','18%',24,-4,0],['usdt',66,'90%','48%',20,-2,1],['hash',54,'3%','58%',25,-6,1],['btc',100,'80%','80%',28,-9,1],['eth',48,'46%','90%',23,-3,1],['usdt',44,'55%','4%',26,-1,1]];
+const w=document.getElementById('bgcoins');
+L.forEach(([k,sz,l,t,d,dl,b],i)=>{const e=document.createElement('span');e.className='bgcoin'+(b?' blur':'');e.style.cssText=`width:${sz}px;height:${sz}px;left:${l};top:${t};--d:${d}s;--delay:${dl}s;--dx:${(i%2?-1:1)*(12+i*3)}px;--dy:${-20-i*3}px;--r0:${-10+i*3}deg;--r1:${12-i*2}deg`;e.innerHTML=C[k].replace(/id="(g[A-Z])"/g,`id="$1${i}"`).replace(/url\(#(g[A-Z])\)/g,`url(#$1${i})`);w.appendChild(e)});
+})();
+</script>
+</body></html>
